@@ -32,30 +32,30 @@ namespace client::system
 		const auto& employee = mStaff[index.row()];
 		switch (role)
 		{
-		case IDRole:
-			return QVariant(employee->id);
+		case IdRole:
+			return QVariant(employee->id());
 		case UsernameRole:
-			return QVariant(employee->username);
+			return QVariant(employee->username());
 		case PasswordRole:
-			return QVariant(employee->password);
+			return QVariant(employee->password());
 		case FirstNameRole:
-			return QVariant(employee->firstName);
+			return QVariant(employee->firstName());
 		case LastNameRole:
-			return QVariant(employee->lastName);
+			return QVariant(employee->lastName());
 		case EmailRole:
-			return QVariant(employee->email);
+			return QVariant(employee->email());
 		case GenderRole:
-			return QVariant(employee->gender);
+			return QVariant(employee->gender());
 		case AgeRole:
-			return QVariant(employee->age);
+			return QVariant(employee->age());
 		case PhotoRole:
-			return QVariant(employee->photo);
+			return QVariant(employee->photo());
 		case AcademicDegreeRole:
-			return QVariant(employee->academicDegree);
+			return QVariant(employee->academicDegree());
 		case ManagerRole:
-			return QVariant(employee->manager);
+			return QVariant(employee->manager());
 		case StaffTypeRole:
-			return QVariant(employee->staffType);
+			return QVariant(employee->staffType());
 		default:
 			return QVariant();
 		}
@@ -64,7 +64,7 @@ namespace client::system
 	QHash<int, QByteArray> StaffList::roleNames() const
 	{
 		static QHash<int, QByteArray> mappings {
-			{IDRole, "id"},
+			{IdRole, "id"},
 			{UsernameRole, "username"},
 			{PasswordRole, "password"},
 			{FirstNameRole, "firstName"},
@@ -85,72 +85,72 @@ namespace client::system
 		// if the given employee is already in the list we just update it
 		for (size_t i = 0; i < mStaff.size(); ++i)
 		{
-			if (mStaff[i]->id != employee->id)
+			if (mStaff[i]->id() != employee->id())
 				continue;
 
-			if (mStaff[i]->username != employee->username)
+			if (mStaff[i]->username() != employee->username())
 			{
-				mStaff[i]->username = employee->username;
+				mStaff[i]->setUsername(employee->username());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { UsernameRole });
 			}
-			if (mStaff[i]->password != employee->password)
+			if (mStaff[i]->password() != employee->password())
 			{
-				mStaff[i]->password = employee->password;
+				mStaff[i]->setPassword(employee->password());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { PasswordRole });
 			}
-			if (mStaff[i]->firstName != employee->firstName)
+			if (mStaff[i]->firstName() != employee->firstName())
 			{
-				mStaff[i]->firstName = employee->firstName;
+				mStaff[i]->setFirstName(employee->firstName());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { FirstNameRole });
 			}
-			if (mStaff[i]->lastName != employee->lastName)
+			if (mStaff[i]->lastName() != employee->lastName())
 			{
-				mStaff[i]->lastName = employee->lastName;
+				mStaff[i]->setLastName(employee->lastName());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { LastNameRole });
 			}
-			if (mStaff[i]->email != employee->email)
+			if (mStaff[i]->email() != employee->email())
 			{
-				mStaff[i]->email = employee->email;
+				mStaff[i]->setEmail(employee->email());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { EmailRole });
 			}
-			if (mStaff[i]->gender != employee->gender)
+			if (mStaff[i]->gender() != employee->gender())
 			{
-				mStaff[i]->gender = employee->gender;
+				mStaff[i]->setGender(employee->gender());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { GenderRole });
 			}
-			if (mStaff[i]->age != employee->age)
+			if (mStaff[i]->age() != employee->age())
 			{
-				mStaff[i]->age = employee->age;
+				mStaff[i]->setAge(employee->age());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { AgeRole });
 			}
-			if (mStaff[i]->photo != employee->photo)
+			if (mStaff[i]->photo() != employee->photo())
 			{
-				mStaff[i]->photo = employee->photo;
+				mStaff[i]->setPhoto(employee->photo());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { PhotoRole });
 			}
-			if (mStaff[i]->academicDegree != employee->academicDegree)
+			if (mStaff[i]->academicDegree() != employee->academicDegree())
 			{
-				mStaff[i]->academicDegree = employee->academicDegree;
+				mStaff[i]->setAcademicDegree(employee->academicDegree());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { AcademicDegreeRole });
 			}
-			if (mStaff[i]->manager != employee->manager)
+			if (mStaff[i]->manager() != employee->manager())
 			{
-				mStaff[i]->manager = employee->manager;
+				mStaff[i]->setManager(employee->manager());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { ManagerRole });
 			}
-			if (mStaff[i]->staffType != employee->staffType)
+			if (mStaff[i]->staffType() != employee->staffType())
 			{
-				mStaff[i]->staffType = employee->staffType;
+				mStaff[i]->setStaffType(employee->staffType());
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { StaffTypeRole });
 			}
@@ -168,7 +168,7 @@ namespace client::system
 	{
 		for (size_t i = 0; i < mStaff.size(); ++i)
 		{
-			if (mStaff[i]->id == id)
+			if (mStaff[i]->id() == id)
 			{
 				beginRemoveRows(QModelIndex(), i, i);
 				mStaff.removeAt(i);
@@ -190,7 +190,7 @@ namespace client::system
 	Staff* StaffList::getStaff(size_t id)
 	{
 		for (auto employee: mStaff)
-			if (employee->id == id)
+			if (employee->id() == id)
 				return employee;
 
 		return nullptr;
@@ -199,7 +199,7 @@ namespace client::system
 	Staff* StaffList::authenticateStaff(QString username, QString password)
 	{
 		for (auto employee: mStaff)
-			if (employee->username == username && employee->password == password)
+			if (employee->username() == username && employee->password() == password)
 				return employee;
 
 		return nullptr;

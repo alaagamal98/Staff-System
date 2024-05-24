@@ -1,63 +1,15 @@
 #pragma once
 
+#include "StaffSystem/StaffObject.h"
+
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QString>
 #include <QtCore/QVector>
 #include <QtGui/QColor>
 #include <QtQml/qqml.h>
 
-#include <chrono>
-
 namespace client::system
 {
-	struct Staff
-	{
-		Q_GADGET
-		Q_PROPERTY(size_t id MEMBER id)
-		Q_PROPERTY(QString username MEMBER username)
-		Q_PROPERTY(QString password MEMBER password)
-		Q_PROPERTY(QString firstName MEMBER firstName)
-		Q_PROPERTY(QString lastName MEMBER lastName)
-		Q_PROPERTY(QString email MEMBER email)
-		Q_PROPERTY(Gender gender MEMBER gender)
-		Q_PROPERTY(size_t age MEMBER age)
-		Q_PROPERTY(QByteArray photo MEMBER photo)
-		Q_PROPERTY(QString academicDegree MEMBER academicDegree)
-		Q_PROPERTY(QString manager MEMBER manager)
-		Q_PROPERTY(StaffType staffType MEMBER staffType)
-		QML_VALUE_TYPE(Staff)
-
-	public:
-		enum Gender
-		{
-			Male,
-			Female,
-		};
-		Q_ENUM(Gender);
-
-		enum StaffType
-		{
-			Admin,
-			HR,
-			Manager,
-			Employee,
-		};
-		Q_ENUM(StaffType);
-
-		size_t id;
-		QString username;
-		QString password;
-		QString firstName;
-		QString lastName;
-		QString email;
-		Gender gender;
-		size_t age;
-		QByteArray photo;
-		QString academicDegree;
-		QString manager;
-		StaffType staffType;
-	};
-
 	class StaffList : public QAbstractListModel
 	{
 		Q_OBJECT
@@ -65,11 +17,12 @@ namespace client::system
 		Q_PROPERTY(int count READ count NOTIFY countChanged) // To be bindable from qml
 
 	public:
-		explicit StaffList(QObject* parent = nullptr);
+		StaffList(QObject* parent = nullptr);
+		~StaffList() { clear(); };
 
 		enum
 		{
-			IDRole = Qt::UserRole,
+			IdRole = Qt::UserRole,
 			UsernameRole,
 			PasswordRole,
 			FirstNameRole,

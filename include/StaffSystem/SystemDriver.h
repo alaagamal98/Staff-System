@@ -1,7 +1,5 @@
 #pragma once
 
-#include "StaffSystem/StaffList.h"
-
 #include <QQmlEngine>
 #include <QQuickWindow>
 
@@ -14,20 +12,6 @@ namespace client::system
 		QML_SINGLETON
 
 	public:
-		enum AppTheme
-		{
-			AppThemeLight,
-			AppThemeDark,
-		};
-		Q_ENUM(AppTheme);
-
-		enum CameraRotationMode
-		{
-			CameraRotationModeTurntable,
-			CameraRotationModeTrackball,
-		};
-		Q_ENUM(CameraRotationMode);
-
 		SystemDriver(QObject* parent = nullptr);
 
 		void setAppRef(QApplication* app) { mApp = app; }

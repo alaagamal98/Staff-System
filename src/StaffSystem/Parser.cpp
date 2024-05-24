@@ -5,8 +5,8 @@ namespace client::system
 	int
 	parseEmployee(void *data, int col_count, char **col_content, char **col_name)
 	{
-		auto staff_list = (client::system::StaffList *)data;
-		auto employee = new client::system::Staff{};
+		auto staff_list = (StaffList *)data;
+		auto employee = new Staff{};
 
 		for (int j = 0; j < col_count; ++j)
 		{
@@ -15,68 +15,68 @@ namespace client::system
 
 			auto column = std::string(col_name[j]);
 
-			if (column == "ID")
+			if (column == "Id")
 			{
 				char* end_ptr = (char*)col_content[j];
-				employee->id = (size_t)std::strtol(col_content[j], &end_ptr, 10);
+				employee->setId((size_t)std::strtol(col_content[j], &end_ptr, 10));
 			}
 			else if (column == "Username")
 			{
-				employee->username = QString::fromStdString(col_content[j]);
+				employee->setUsername(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "Password")
 			{
-				employee->password = QString::fromStdString(col_content[j]);
+				employee->setPassword(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "FirstName")
 			{
-				employee->firstName = QString::fromStdString(col_content[j]);
+				employee->setFirstName(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "LastName")
 			{
-				employee->lastName = QString::fromStdString(col_content[j]);
+				employee->setLastName(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "Email")
 			{
-				employee->email = QString::fromStdString(col_content[j]);
+				employee->setEmail(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "Gender")
 			{
 				auto gender = std::string(col_content[j]);
 				if (gender == "Male")
-					employee->gender = client::system::Staff::Male;
+					employee->setGender(Staff::Male);
 				else
-					employee->gender = client::system::Staff::Female;
+					employee->setGender(Staff::Female);
 			}
 			else if (column == "Age")
 			{
 				char* end_ptr = (char*)col_content[j];
-				employee->age = (size_t)std::strtol(col_content[j], &end_ptr, 10);
+				employee->setAge((size_t)std::strtol(col_content[j], &end_ptr, 10));
 			}
 			else if (column == "Photo")
 			{
 				auto photo = std::string(col_content[j]);
-				employee->photo = QByteArray(photo.c_str(), photo.length());
+				employee->setPhoto(QByteArray(photo.c_str(), photo.length()));
 			}
 			else if (column == "AcademicDegree")
 			{
-				employee->academicDegree = QString::fromStdString(col_content[j]);
+				employee->setAcademicDegree(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "Manager")
 			{
-				employee->manager = QString::fromStdString(col_content[j]);
+				employee->setManager(QString::fromStdString(col_content[j]));
 			}
 			else if (column == "Role")
 			{
 				auto role = std::string(col_content[j]);
 				if (role == "Admin")
-					employee->staffType = client::system::Staff::Admin;
+					employee->setStaffType(Staff::Admin);
 				else if (role == "HR")
-					employee->staffType = client::system::Staff::HR;
+					employee->setStaffType(Staff::HR);
 				else if (role == "Manager")
-					employee->staffType = client::system::Staff::Manager;
+					employee->setStaffType(Staff::Manager);
 				else
-					employee->staffType = client::system::Staff::Employee;
+					employee->setStaffType(Staff::Employee);
 			}
 		}
 		staff_list->addOrUpdateStaff(employee);

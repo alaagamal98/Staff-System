@@ -91,6 +91,7 @@ qt_add_qml_module(StaffSystem
 		include/StaffSystem/SystemDriver.h
 		include/StaffSystem/LoginDriver.h
 		include/StaffSystem/StaffDriver.h
+		include/StaffSystem/StaffObject.h
 		include/StaffSystem/StaffList.h
 		include/StaffSystem/Parser.h
 		src/StaffSystem/main.cpp

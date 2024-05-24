@@ -6,6 +6,7 @@ namespace client::system
 	StaffDriver::StaffDriver(QObject* parent) : QObject(parent)
 	{
 		mStaffList = StaffList::singleton();
+		mCurrentEmployee = Staff::singleton();
 	}
 
 	StaffDriver::~StaffDriver()
@@ -29,5 +30,22 @@ namespace client::system
 
 		char *err = nullptr;
 		auto rc2 = sqlite3_exec(db, query.c_str(), parseEmployee, mStaffList, &err);
+	}
+
+	void StaffDriver::setCurrentEmployee(Staff* employee)
+	{
+		mCurrentEmployee->setId(employee->id());
+		mCurrentEmployee->setUsername(employee->username());
+		mCurrentEmployee->setPassword(employee->password());
+		mCurrentEmployee->setFirstName(employee->firstName());
+		mCurrentEmployee->setLastName(employee->lastName());
+		mCurrentEmployee->setEmail(employee->email());
+		mCurrentEmployee->setGender(employee->gender());
+		mCurrentEmployee->setAge(employee->age());
+		mCurrentEmployee->setPhoto(employee->photo());
+		mCurrentEmployee->setAcademicDegree(employee->academicDegree());
+		mCurrentEmployee->setManager(employee->manager());
+		mCurrentEmployee->setStaffType(employee->staffType());
+		currentEmployeeChanged(mCurrentEmployee);
 	}
 } // namespace client::system

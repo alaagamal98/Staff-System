@@ -28,14 +28,23 @@ namespace client::system
 
 		auto employee = staffDriver->staffList()->authenticateStaff(utf8Username, utf8Password);
 		if (employee == nullptr)
+		{
 			loginDriver->loginFailed("Username or Password Incorrect");
+		}
 		else
-			loginDriver->loginSucceeded(username, employee->photo);
+		{
+			staffDriver->setCurrentEmployee(employee);
+			loginDriver->loginSucceeded();
+		}
 	}
 
 	void SystemDriver::onLogoutRequested()
 	{
 		auto loginDriver = LoginDriver::singleton();
+		auto staffDriver = StaffDriver::singleton();
+
+		auto employee = Staff{};
+		staffDriver->setCurrentEmployee(&employee);
 		loginDriver->logoutSucceeded();
 	}
 } // namespace client::system

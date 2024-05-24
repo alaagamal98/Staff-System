@@ -23,7 +23,7 @@ Item {
 
         ColumnLayout {
             Text {
-                text: LoginDriver.state === LoginDriver.StateLoggedIn ? LoginDriver.username : "Anonymous"
+                text: StaffDriver.currentEmployee.username
                 font.pixelSize: 12
                 font.weight: 2
                 font.family: "Roboto Light"

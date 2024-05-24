@@ -12,8 +12,6 @@ namespace client::system
 		Q_OBJECT
 		Q_PROPERTY(QString error READ error WRITE setError NOTIFY errorChanged)
 		Q_PROPERTY(State state READ state NOTIFY stateChanged)
-		Q_PROPERTY(QString username READ username NOTIFY usernameChanged)
-		Q_PROPERTY(QByteArray avatar READ avatar NOTIFY avatarChanged)
 		QML_ELEMENT
 		QML_SINGLETON
 	public:
@@ -47,18 +45,12 @@ namespace client::system
 		// state property
 		State state() const { return mState; }
 
-		// username property
-		QString username() const { return mUsername; }
-
-		// avatar url property
-		QByteArray avatar() const { return mAvatar; }
-
 	public slots:
 		// called whenever a login request has failed
 		void loginFailed(QString reason);
 
 		// called when a user logs in
-		void loginSucceeded(QString username, QByteArray avatar);
+		void loginSucceeded();
 
 		// called when a user fails to log out
 		void logoutFailed(QString reason);
@@ -89,15 +81,9 @@ namespace client::system
 		LoginDriver(QObject* parent = nullptr);
 		// helper function which changes the login driver state
 		void setState(State nextState);
-		// helper function to set user name
-		void setUsername(QString username);
-		// helper function to set avatar url
-		void setAvatar(QByteArray avatar);
 
 		// holds the error message of the last operation
 		QString mError;
 		State mState = StateLoggedOut;
-		QString mUsername;
-		QByteArray mAvatar;
 	};
 }

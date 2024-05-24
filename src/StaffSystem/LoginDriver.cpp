@@ -39,10 +39,8 @@ namespace client::system
 		setError(reason);
 	}
 
-	void LoginDriver::loginSucceeded(QString username, QByteArray avatar)
+	void LoginDriver::loginSucceeded()
 	{
-		setUsername(username);
-		setAvatar(avatar);
 		setState(StateLoggedIn);
 	}
 
@@ -54,7 +52,6 @@ namespace client::system
 	void LoginDriver::logoutSucceeded()
 	{
 		setState(StateLoggedOut);
-		setUsername(QString{});
 	}
 
 	void LoginDriver::setState(State nextState)
@@ -63,21 +60,5 @@ namespace client::system
 			return;
 		mState = nextState;
 		emit stateChanged(mState);
-	}
-
-	void LoginDriver::setUsername(QString username)
-	{
-		if (mUsername == username)
-			return;
-		mUsername = username;
-		emit usernameChanged(mUsername);
-	}
-
-	void LoginDriver::setAvatar(QByteArray avatar)
-	{
-		if (mAvatar == avatar)
-			return;
-		mAvatar = avatar;
-		emit avatarChanged(mAvatar);
 	}
 }
