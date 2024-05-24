@@ -10,6 +10,8 @@ ColumnLayout {
         id: nameContent
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
         Layout.fillWidth: true
+        Layout.leftMargin: 15
+
         Text {
             font.pixelSize: 20
             font.weight: Font.Bold
@@ -31,6 +33,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignRight
         Layout.rightMargin: 20
         Layout.topMargin: 20
+        Layout.leftMargin: 15
 
         Text {
             text: StaffDriver.currentEmployee.username

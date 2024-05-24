@@ -7,21 +7,25 @@ import StaffSystem
 ColumnLayout {
     id: root
 
-    property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Email", "Gender", "Age", "Photo", "Academic Degree", "Manager", "Role"]
+    property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Email", "Gender", "Age", "Academic Degree", "Manager", "Role"]
     property var tableRows: StaffDriver.reportStaffList()
     property var rowCurrentIndex: 0
 
     property alias tableView: tableView
     property alias tableViewHeight: tableView.height
-    property int itemsHeight: headerLbl.height + horizontalHeader.height + 50 // margins
-
-    spacing: 20
+    property int itemsHeight: headerLbl.height + horizontalHeader.height
 
     Label {
         id: headerLbl
-
-        objectName: "headerLbl"
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
         Layout.fillWidth: true
+        color: "#FFFFFF"
+        font.pixelSize: 20
+        font.bold: true
+        Layout.bottomMargin: 50
+        Layout.topMargin: 50
+        objectName: "headerLbl"
         text: "Staff Database"
     }
 
@@ -30,12 +34,17 @@ ColumnLayout {
 
         objectName: "horizontalHeader"
         Layout.fillWidth: true
-        Layout.bottomMargin: -15
         syncView: tableView
         clip: true
 
         delegate: Label {
             text: root.tableHeaderInfo[index]
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            color: "#FFFFFF"
+            font.bold: true
+            topPadding: 10
+            bottomPadding: 10
         }
     }
 
@@ -44,8 +53,8 @@ ColumnLayout {
 
         objectName: "tableView"
         Layout.fillWidth: true
-        Layout.preferredHeight: Math.max(1, childrenRect.height)
-        interactive: false
+        Layout.fillHeight: true
+        Layout.preferredHeight: 50
 
         model: TableModel {
             TableModelColumn {
@@ -68,9 +77,6 @@ ColumnLayout {
             }
             TableModelColumn {
                 display: "Age"
-            }
-            TableModelColumn {
-                display: "Photo"
             }
             TableModelColumn {
                 display: "Academic Degree"
@@ -101,14 +107,29 @@ ColumnLayout {
             }
 
             Label {
+                id: dataCell
                 anchors {
                     top: rowSeparator.bottom
                 }
-                topPadding: 10
-                bottomPadding: 10
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+                color: "#FFFFFF"
+                padding: 10
                 width: parent.width
                 wrapMode: Text.WordWrap
                 text: model.display
+            }
+
+            Rectangle {
+                id: columnSeperator
+
+                anchors {
+                    left: dataCell.right
+                    leftMargin: 5
+                }
+                height: parent.height
+                width: 2
+                color: "#DBE2EE"
             }
         }
     }
@@ -124,8 +145,7 @@ ColumnLayout {
         target: StaffList
 
         function onCountChanged() {
-			tableRows = StaffDriver.reportStaffList()
-
+            tableRows = StaffDriver.reportStaffList();
             if (rowCurrentIndex < tableRows.length) {
                 tableView.model.appendRow(tableRows[rowCurrentIndex]);
                 rowCurrentIndex++;

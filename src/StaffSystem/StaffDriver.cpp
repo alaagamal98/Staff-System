@@ -44,19 +44,40 @@ namespace client::system
 
 		for (auto employee : employees)
 		{
-			staffList.push_back(QVariantMap {
-				{"Id", employee->id()},
-				{"Username", employee->username()},
-				{"First Name", employee->firstName()},
-				{"Last Name", employee->lastName()},
-				{"Email", employee->email()},
-				{"Gender", employee->gender()},
-				{"Age", employee->age()},
-				{"Photo", employee->photo()},
-				{"Academic Degree", employee->academicDegree()},
-				{"Manager", employee->manager()},
-				{"Role", employee->staffType()},
-			});
+			bool is_admin = mCurrentEmployee->staffType() == Staff::Admin;
+
+			bool is_hr = mCurrentEmployee->staffType() == Staff::HR &&
+				(employee->staffType() == Staff::Manager || employee->staffType() == Staff::Employee);
+
+			bool is_manager = mCurrentEmployee->staffType() == Staff::Manager && employee->staffType() == Staff::Employee &&
+				employee->manager() == mCurrentEmployee->username();
+
+			if (is_admin || is_hr || is_manager)
+			{
+				auto gender = employee->gender() == Staff::Male ? "Male" : "Female";
+				std::string role;
+				if (employee->staffType() == Staff::Admin)
+					role = "Admin";
+				else if (employee->staffType() == Staff::HR)
+					role = "HR";
+				else if (employee->staffType() == Staff::Manager)
+					role = "Manager";
+				else
+					role = "Employee";
+
+				staffList.push_back(QVariantMap {
+					{"Id", employee->id()},
+					{"Username", employee->username()},
+					{"First Name", employee->firstName()},
+					{"Last Name", employee->lastName()},
+					{"Email", employee->email()},
+					{"Gender", gender},
+					{"Age", employee->age()},
+					{"Academic Degree", employee->academicDegree()},
+					{"Manager", employee->manager()},
+					{"Role", role.c_str()},
+				});
+			}
 		}
 		return staffList;
 	}

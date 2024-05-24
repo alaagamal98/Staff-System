@@ -104,7 +104,6 @@ qt_add_qml_module(StaffSystem
 		icons/siemens.svg
 		icons/plus-circle-on.svg
 		icons/plus-circle.svg
-		icons/wide.svg
 		icons/info.svg
 		icons/tip.svg
 		icons/note.svg

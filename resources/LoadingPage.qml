@@ -11,12 +11,8 @@ Item {
 
         Image {
             sourceSize.width: 512
-            source: "qrc:/StaffSystem/icons/wide.svg"
+            source: "qrc:/StaffSystem/icons/siemens.svg"
             fillMode: Image.PreserveAspectFit
-        }
-
-        RowLayout {
-            spacing: 8
         }
     }
 }

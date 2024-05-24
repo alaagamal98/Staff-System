@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-
 import StaffSystem
 
 ColumnLayout {
@@ -13,11 +12,13 @@ ColumnLayout {
         font.weight: Font.Bold
         color: "#FFFFFF"
         text: "Welcome"
+        Layout.leftMargin: 15
     }
 
     Text {
         Layout.alignment: Qt.AlignHCenter
         Layout.topMargin: 10
+        Layout.leftMargin: 15
         Layout.bottomMargin: 20
         font.pixelSize: 16
         font.weight: Font.Bold
@@ -31,6 +32,8 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredHeight: 45
         Layout.preferredWidth: 300
+        Layout.leftMargin: 15
+
         verticalAlignment: Qt.AlignVCenter
         placeholderText: "Username"
         font.pixelSize: 16
@@ -40,6 +43,7 @@ ColumnLayout {
 
     TextField {
         id: passwordInput
+        Layout.leftMargin: 15
 
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredHeight: 45
@@ -56,6 +60,8 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignHCenter
         Layout.topMargin: 5
+        Layout.leftMargin: 15
+
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 14
         wrapMode: Text.WordWrap
@@ -67,6 +73,8 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.preferredWidth: 300
         Layout.topMargin: 5
+        Layout.leftMargin: 15
+
         leftPadding: 8
         rightPadding: 8
         topPadding: 8

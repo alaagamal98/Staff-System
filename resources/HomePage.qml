@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-
 import StaffSystem
 
 RowLayout {
@@ -16,14 +15,13 @@ RowLayout {
         Layout.fillHeight: true
     }
 
-        Loader {
-            id: tableView
+    Loader {
+        id: tableView
 
-            source: "qrc:/StaffSystem/resources/StaffList.qml"
-
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
+        source: LoginDriver.state === LoginDriver.StateLoggedIn ? "qrc:/StaffSystem/resources/StaffList.qml" : "qrc:/StaffSystem/resources/LoadingPage.qml"
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+    }
     Rectangle {
         Layout.preferredWidth: 2
         Layout.fillHeight: true
