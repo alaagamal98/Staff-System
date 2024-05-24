@@ -52,7 +52,9 @@ namespace client::system
 
 		// Getters
 		Q_INVOKABLE QVector<Staff*> employees() const { return mStaff; }
-		int count() const { return rowCount(QModelIndex{}); }
+		int count() const {
+			return rowCount(QModelIndex{});
+		}
 
 		// returns the employee associated with the given id, if there isn't one, it returns nullptr
 		Q_INVOKABLE Staff* getStaff(size_t id);

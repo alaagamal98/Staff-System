@@ -1,151 +1,135 @@
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import Qt.labs.qmlmodels 1.0
 import QtQuick.Layouts
-import Qt.labs.platform as Platform
-
 import StaffSystem
 
-ListView {
+ColumnLayout {
     id: root
 
-    readonly property color itemSelectedColor: "#292929"
+    property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Email", "Gender", "Age", "Photo", "Academic Degree", "Manager", "Role"]
+    property var tableRows: StaffDriver.reportStaffList()
+    property var rowCurrentIndex: 0
 
-    focus: true
-    clip: true
-    currentIndex: -1
-    interactive: false
-    spacing: 5
-    visible: count > 0
-    implicitHeight: contentHeight
-    model: StaffDriver.modelList
+    property alias tableView: tableView
+    property alias tableViewHeight: tableView.height
+    property int itemsHeight: headerLbl.height + horizontalHeader.height + 50 // margins
 
-    highlight: Rectangle {
-        radius: 4
-        color: "#4A75E8"
-        opacity: 0.3
+    spacing: 20
+
+    Label {
+        id: headerLbl
+
+        objectName: "headerLbl"
+        Layout.fillWidth: true
+        text: "Staff Database"
     }
 
-    delegate: Rectangle {
-        readonly property bool delegateHovered: content.contentHovered
+    HorizontalHeaderView {
+        id: horizontalHeader
 
-        width: root.width
-        height: 32
+        objectName: "horizontalHeader"
+        Layout.fillWidth: true
+        Layout.bottomMargin: -15
+        syncView: tableView
         clip: true
-        color: model.selected ? root.itemSelectedColor : "transparent"
-        border.width: model.selected ? 1 : 0
-        border.color: "#4A75E8"
-        radius: 4
 
-        onDelegateHoveredChanged: {
-            if (delegateHovered)
-                root.currentIndex = model.index
-            else if (root.currentIndex === model.index)
-                root.currentIndex = -1
+        delegate: Label {
+            text: root.tableHeaderInfo[index]
+        }
+    }
+
+    TableView {
+        id: tableView
+
+        objectName: "tableView"
+        Layout.fillWidth: true
+        Layout.preferredHeight: Math.max(1, childrenRect.height)
+        interactive: false
+
+        model: TableModel {
+            TableModelColumn {
+                display: "Id"
+            }
+            TableModelColumn {
+                display: "Username"
+            }
+            TableModelColumn {
+                display: "First Name"
+            }
+            TableModelColumn {
+                display: "Last Name"
+            }
+            TableModelColumn {
+                display: "Email"
+            }
+            TableModelColumn {
+                display: "Gender"
+            }
+            TableModelColumn {
+                display: "Age"
+            }
+            TableModelColumn {
+                display: "Photo"
+            }
+            TableModelColumn {
+                display: "Academic Degree"
+            }
+            TableModelColumn {
+                display: "Manager"
+            }
+            TableModelColumn {
+                display: "Role"
+            }
+            rows: []
         }
 
-        RowLayout {
-            id: content
+        delegate: Item {
+            implicitWidth: tableView.width / tableView.columns
+            implicitHeight: childrenRect.height
 
-            readonly property bool contentHovered: textMouseArea.containsMouse || visibilityBtn.hovered
+            Rectangle {
+                id: rowSeparator
 
-            anchors.fill: parent
-            spacing: 0
-
-            Item {
-                Layout.leftMargin: 8
-                Layout.rightMargin: 8
-                Layout.preferredHeight: parent.height
-                Layout.fillWidth: true
-
-                Rectangle {
-                    id: colorIndicator
-
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                    }
-                    width: 12
-                    height: 12
-                    radius: 4
-                    color: model.color
-
-                    Rectangle {
-                        anchors.centerIn: parent
-                        width: 4
-                        height: 4
-                    }
+                anchors {
+                    top: parent.top
+                    topMargin: 5
                 }
+                width: parent.width
+                height: 2
+                color: "#DBE2EE"
+            }
 
-                MouseArea {
-                    id: textMouseArea
-
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    onClicked: function (mouse) {
-                        if (mouse.button === Qt.RightButton) {
-                            optionsMenu.x = mouse.x
-                            optionsMenu.y = mouse.y
-                            optionsMenu.popup()
-                        } else if (mouse.button === Qt.LeftButton) {
-                            // multi-selection
-                            if (mouse.modifiers & Qt.ControlModifier) {
-                                if (model.index < privates.topIndex)
-                                    privates.topIndex = model.index
-                                else
-                                    privates.bottomIndex = model.index
-
-                                // toggle selection
-                                StaffDriver.setSelected(model.id, !model.selected)
-
-                                // make the model visible if it is selected, note that the model can't
-                                // be in a selected state AND invisible, so only one check suffices
-                                if (model.visible === false)
-                                    StaffDriver.setVisible(model.id, true)
-
-                            // ranged-selection
-                            } else if (mouse.modifiers & Qt.ShiftModifier) {
-                                if (model.index < privates.topIndex)
-                                    privates.topIndex = model.index
-                                else
-                                    privates.bottomIndex = model.index
-
-                                // select all models between top and bottom index
-                                StaffDriver.setMultipleSelected(privates.topIndex, privates.bottomIndex + 1, true)
-                            // single-selection
-                            } else {
-                                privates.topIndex = model.index
-                                privates.bottomIndex = model.index
-
-                                if (!model.selected) {
-                                    StaffDriver.setSelected(model.id, true)
-
-                                    // make the model visible if it is selected
-                                    if (model.visible === false)
-                                        StaffDriver.setVisible(model.id, true)
-                                }
-
-                                // deselect all models except the selected one at model.index
-                                StaffDriver.setMultipleSelected(0, model.index, false)
-                                StaffDriver.setMultipleSelected(model.index + 1, count, false)
-                            }
-                        }
-                    }
-                    onDoubleClicked: function (mouse) {
-                        nameTextField.forceActiveFocus()
-                        nameTextField.selectAll()
-                    }
+            Label {
+                anchors {
+                    top: rowSeparator.bottom
                 }
+                topPadding: 10
+                bottomPadding: 10
+                width: parent.width
+                wrapMode: Text.WordWrap
+                text: model.display
             }
         }
     }
 
-    QtObject {
-        id: privates
+    Component.onCompleted: {
+        while (rowCurrentIndex < tableRows.length) {
+            tableView.model.appendRow(tableRows[rowCurrentIndex]);
+            rowCurrentIndex++;
+        }
+    }
 
-        // used in model list to indicate selection range
-        property int topIndex: root.count - 1
-        property int bottomIndex: 0
+    Connections {
+        target: StaffList
+
+        function onCountChanged() {
+			tableRows = StaffDriver.reportStaffList()
+
+            if (rowCurrentIndex < tableRows.length) {
+                tableView.model.appendRow(tableRows[rowCurrentIndex]);
+                rowCurrentIndex++;
+            }
+        }
     }
 }

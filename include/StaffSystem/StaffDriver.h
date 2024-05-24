@@ -38,6 +38,8 @@ namespace client::system
 
 		StaffList* staffList() const { return mStaffList; }
 
+		Q_INVOKABLE QVariantList reportStaffList();
+
 	signals:
 	void currentEmployeeChanged(Staff* employee);
 

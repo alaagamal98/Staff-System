@@ -16,8 +16,14 @@ RowLayout {
         Layout.fillHeight: true
     }
 
-    // NOTE(AbdeltwabMF): Instead of relying on layout spacing,
-    // we used a gradient separator to differentiate between components.
+        Loader {
+            id: tableView
+
+            source: "qrc:/StaffSystem/resources/StaffList.qml"
+
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
     Rectangle {
         Layout.preferredWidth: 2
         Layout.fillHeight: true

@@ -17,7 +17,9 @@ ColumnLayout {
 
     Text {
         Layout.alignment: Qt.AlignHCenter
-        font.pixelSize: 18
+        Layout.topMargin: 10
+        Layout.bottomMargin: 20
+        font.pixelSize: 16
         font.weight: Font.Bold
         color: "#FFFFFF"
         text: "Login to your Siemens account"
@@ -51,9 +53,9 @@ ColumnLayout {
     }
 
     Text {
-        visible: LoginDriver.error !== ""
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignHCenter
+        Layout.topMargin: 5
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 14
         wrapMode: Text.WordWrap
@@ -64,6 +66,7 @@ ColumnLayout {
     Button {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.preferredWidth: 300
+        Layout.topMargin: 5
         leftPadding: 8
         rightPadding: 8
         topPadding: 8

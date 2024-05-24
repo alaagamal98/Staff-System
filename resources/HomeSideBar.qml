@@ -13,7 +13,7 @@ Rectangle {
     ColumnLayout {
         id: homeSideBarLayout
 
-        anchors.fill: parent
+        Layout.fillWidth: true
 
         Connections {
             target: LoginDriver
@@ -28,10 +28,25 @@ Rectangle {
         }
 
         Image {
-            Layout.alignment: Qt.AlignTop
-            sourceSize.width: 300
+            id: logo
+            verticalAlignment: Qt.AlignTop
+            horizontalAlignment: Qt.AlignHCenter
+            sourceSize.width: 330
             fillMode: Image.PreserveAspectFit
             source: "qrc:/StaffSystem/icons/siemens.svg"
+        }
+
+        Rectangle {
+            anchors {
+                top: logo.bottom
+                left: parent.left
+                right: parent.right
+                topMargin: 10
+                leftMargin: 20
+                rightMargin: 20
+            }
+            color: "#FFFFFF"
+            height: 2
         }
 
         Loader {
@@ -39,10 +54,9 @@ Rectangle {
 
             source: LoginDriver.state === LoginDriver.StateLoggedIn ? "qrc:/StaffSystem/resources/UserItem.qml" : "qrc:/StaffSystem/resources/LoginItem.qml"
 
-            Layout.alignment: Qt.AlignTop
+            Layout.alignment: Qt.AlignHCenter
+			Layout.topMargin: 20
             Layout.fillWidth: true
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
         }
     }
 }

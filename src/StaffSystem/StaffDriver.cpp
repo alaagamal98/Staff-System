@@ -32,6 +32,35 @@ namespace client::system
 		auto rc2 = sqlite3_exec(db, query.c_str(), parseEmployee, mStaffList, &err);
 	}
 
+	QVariantList StaffDriver::reportStaffList()
+	{
+		QVariantList staffList;
+
+		auto employees = mStaffList->employees();
+
+		std::sort(employees.begin(), employees.end(), [](Staff* a, Staff* b) -> bool {
+			return a->id() < b->id();
+		});
+
+		for (auto employee : employees)
+		{
+			staffList.push_back(QVariantMap {
+				{"Id", employee->id()},
+				{"Username", employee->username()},
+				{"First Name", employee->firstName()},
+				{"Last Name", employee->lastName()},
+				{"Email", employee->email()},
+				{"Gender", employee->gender()},
+				{"Age", employee->age()},
+				{"Photo", employee->photo()},
+				{"Academic Degree", employee->academicDegree()},
+				{"Manager", employee->manager()},
+				{"Role", employee->staffType()},
+			});
+		}
+		return staffList;
+	}
+
 	void StaffDriver::setCurrentEmployee(Staff* employee)
 	{
 		mCurrentEmployee->setId(employee->id());
