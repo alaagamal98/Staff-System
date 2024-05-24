@@ -36,15 +36,19 @@ ColumnLayout {
         Layout.fillWidth: true
         syncView: tableView
         clip: true
+        Layout.preferredHeight: 50
 
-        delegate: Label {
-            text: root.tableHeaderInfo[index]
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            color: "#FFFFFF"
-            font.bold: true
-            topPadding: 10
-            bottomPadding: 10
+        delegate: Rectangle {
+            border.width: 1
+            color: "#A9E0E6"
+            Label {
+                text: root.tableHeaderInfo[index]
+                padding: 10
+                color: "#292E5F"
+                font.bold: true
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                anchors.centerIn: parent
+            }
         }
     }
 
@@ -52,9 +56,12 @@ ColumnLayout {
         id: tableView
 
         objectName: "tableView"
+        columnSpacing: 1
+        rowSpacing: 1
+        clip: true
+        Layout.preferredHeight: 40
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 50
 
         model: TableModel {
             TableModelColumn {
@@ -95,41 +102,22 @@ ColumnLayout {
             implicitHeight: childrenRect.height
 
             Rectangle {
-                id: rowSeparator
 
-                anchors {
-                    top: parent.top
-                    topMargin: 5
-                }
-                width: parent.width
-                height: 2
-                color: "#DBE2EE"
+                border.width: 1
+                anchors.fill: parent
+
+                color: "#A9E0E6"
             }
 
             Label {
                 id: dataCell
-                anchors {
-                    top: rowSeparator.bottom
-                }
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
-                color: "#FFFFFF"
+                color: "#292E5F"
                 padding: 10
                 width: parent.width
                 wrapMode: Text.WordWrap
                 text: model.display
-            }
-
-            Rectangle {
-                id: columnSeperator
-
-                anchors {
-                    left: dataCell.right
-                    leftMargin: 5
-                }
-                height: parent.height
-                width: 2
-                color: "#DBE2EE"
             }
         }
     }
