@@ -15,6 +15,8 @@ ColumnLayout {
     property alias tableViewHeight: tableView.height
     property int itemsHeight: headerLbl.height + horizontalHeader.height
 
+    property var currentUserRole: StaffDriver.currentEmployee.staffType
+
     Label {
         id: headerLbl
         verticalAlignment: Qt.AlignVCenter
@@ -41,6 +43,7 @@ ColumnLayout {
         bottomPadding: 8
         font.pixelSize: 18
         text: "Add New Employee"
+        visible: currentUserRole == 0 || currentUserRole == 1
 
         onClicked: staffAddPopup.open()
     }
@@ -135,6 +138,7 @@ ColumnLayout {
                     Button {
 
                         anchors.centerIn: parent
+                        text: " Details"
                         icon.source: "qrc:/StaffSystem/icons/more.svg"
                         onClicked: {
                             staffDetailsPopup.employeeId = tableView.model.rows[row].Id;
@@ -186,12 +190,13 @@ ColumnLayout {
     }
 
     Connections {
-        target: StaffList
+        target: StaffDriver.staffList
 
         function onCountChanged() {
             tableRows = StaffDriver.reportStaffList();
             if (rowCurrentIndex < tableRows.length) {
                 tableView.model.appendRow(tableRows[rowCurrentIndex]);
+                StaffDriver.InsertStaffToDB(tableView.model.getRow(rowCurrentIndex).Id);
                 rowCurrentIndex++;
             }
         }
@@ -200,16 +205,16 @@ ColumnLayout {
     StaffDetailsPopup {
         id: staffDetailsPopup
 
-        height: parent.height * 3 / 4
-        width: parent.width * 3 / 4
+        height: parent.height - 20
+        width: parent.width - 20
         anchors.centerIn: parent
     }
 
     StaffAddPopup {
         id: staffAddPopup
 
-        height: parent.height * 3 / 4
-        width: parent.width * 3 / 4
+        height: parent.height - 100
+        width: parent.width - 100
         anchors.centerIn: parent
     }
 }

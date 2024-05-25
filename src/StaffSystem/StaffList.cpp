@@ -196,6 +196,40 @@ namespace client::system
 		return nullptr;
 	}
 
+	QVector<Staff*> StaffList::getManagers()
+	{
+		QVector<Staff*> managers;
+		for (auto employee: mStaff)
+			if (employee->staffType() == Staff::Manager)
+				managers.append(employee);
+
+		return managers;
+	}
+
+	void StaffList::addStaff(QVariantMap employee)
+	{
+		beginInsertRows(QModelIndex(), mStaff.size(), mStaff.size());
+		auto new_employee = new Staff{};
+
+		auto last_employee_id = mStaff[mStaff.size() - 1]->id();
+		new_employee->setId(last_employee_id + 1);
+
+		new_employee->setUsername(employee["Username"].toString());
+		new_employee->setPassword(employee["Password"].toString());
+		new_employee->setFirstName(employee["FirstName"].toString());
+		new_employee->setLastName(employee["LastName"].toString());
+		new_employee->setEmail(employee["Email"].toString());
+		new_employee->setGender(Staff::Gender(employee["Gender"].toInt()));
+		new_employee->setAge(employee["Age"].toUInt());
+		new_employee->setPhoto(employee["Photo"].toByteArray());
+		new_employee->setAcademicDegree(employee["AcademicDegree"].toString());
+		new_employee->setManager(employee["Manager"].toString());
+		new_employee->setStaffType(Staff::StaffType(employee["Role"].toInt()));
+
+		mStaff.append(new_employee);
+		endInsertRows();
+	}
+
 	Staff* StaffList::authenticateStaff(QString username, QString password)
 	{
 		for (auto employee: mStaff)

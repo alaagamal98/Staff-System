@@ -82,6 +82,51 @@ namespace client::system
 		return staffList;
 	}
 
+	void StaffDriver::InsertStaffToDB(size_t employee_id)
+	{
+		auto employee = mStaffList->getStaff(employee_id);
+
+		auto staffType = employee->staffType();
+		std::string role;
+				if (staffType == Staff::Admin)
+					role = "Admin";
+				else if (staffType == Staff::HR)
+					role = "HR";
+				else if (staffType == Staff::Manager)
+					role = "Manager";
+				else
+					role = "Employee";
+
+		std::string query = "INSERT INTO Staff (Id, Username, Password, FirstName, LastName, Email, Gender, Age, Photo, AcademicDegree, Manager, Role) VALUES (";
+		query.append(std::to_string(employee_id));
+		query.append(", '");
+		query.append(employee->username().toStdString());
+		query.append("', '");
+		query.append(employee->password().toStdString());
+		query.append("', '");
+		query.append(employee->firstName().toStdString());
+		query.append("', '");
+		query.append(employee->lastName().toStdString());
+		query.append("', '");
+		query.append(employee->email().toStdString());
+		query.append("', '");
+		query.append(employee->gender() == Staff::Male ? "Male" : "Female");
+		query.append("', ");
+		query.append(std::to_string(employee->age()));
+		query.append(", '");
+		query.append(employee->photo().toStdString());
+		query.append("', '");
+		query.append(employee->academicDegree().toStdString());
+		query.append("', '");
+		query.append(employee->manager().toStdString());
+		query.append("', '");
+		query.append(role);
+		query.append("')");
+
+		char *err = nullptr;
+		auto rc2 = sqlite3_exec(mHandle, query.c_str(), NULL, NULL, &err);
+	}
+
 	void StaffDriver::setCurrentEmployee(Staff* employee)
 	{
 		mCurrentEmployee->setId(employee->id());

@@ -59,8 +59,13 @@ namespace client::system
 		// returns the employee associated with the given id, if there isn't one, it returns nullptr
 		Q_INVOKABLE Staff* getStaff(size_t id);
 
+		// returns the managers, if there isn't one, it returns nullptr
+		Q_INVOKABLE QVector<Staff*> getManagers();
+
 		// returns the employee associated with the given username and password, if there isn't one, it returns nullptr
 		Q_INVOKABLE Staff* authenticateStaff(QString username, QString password);
+
+		Q_INVOKABLE void addStaff(QVariantMap employee);
 
 	private:
 		QVector<Staff*> mStaff;

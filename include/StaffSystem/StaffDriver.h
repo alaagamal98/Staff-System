@@ -40,6 +40,8 @@ namespace client::system
 
 		Q_INVOKABLE QVariantList reportStaffList();
 
+		Q_INVOKABLE void InsertStaffToDB(size_t employee_id);
+
 	signals:
 	void currentEmployeeChanged(Staff* employee);
 

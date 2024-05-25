@@ -1,7 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
+import StaffSystem
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import StaffSystem
 
 Popup {
@@ -14,42 +17,39 @@ Popup {
     padding: 0
     closePolicy: Popup.NoAutoClose
 
-    RowLayout {
-        id: headerRow
+    ColumnLayout {
+        id: content
 
-        anchors {
-            left: parent.left
-            verticalCenter: closeBtn.verticalCenter
-            leftMargin: 15
-        }
-        spacing: 10
+        anchors.fill: parent
+        spacing: 0
 
-        Label {
-            id: name
+        RowLayout {
+            id: titleBar
 
-            objectName: "cardNumber"
-            text: employee.firstName + " " + employee.lastName
-            color: "#616978"
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+            Layout.fillWidth: true
+            Layout.margins: 20
+            Layout.alignment: Qt.AlignTop
+
+            Text {
+                id: employeeName
+                Layout.fillWidth: true
+                font.pixelSize: 30
+                font.bold: true
+                text: employee.firstName + " " + employee.lastName
+                color: "#292E5F"
+            }
+
+            Button {
+                id: closeBtn
+
+                text: " Close"
+                implicitWidth: 80
+                implicitHeight: 25
+                Layout.alignment: Qt.AlignRight
+                icon.source: "qrc:/StaffSystem/icons/close.svg"
+
+                onClicked: _root.close()
+            }
         }
     }
-
-    Button {
-        id: closeBtn
-
-        anchors {
-            top: parent.top
-            right: parent.right
-            topMargin: 15
-            rightMargin: 15
-        }
-        text: "Close"
-        implicitWidth: 20
-        implicitHeight: 25
-    	icon.source: "qrc:/StaffSystem/icons/close.svg"
-
-        onClicked: _root.close()
-    }
-
 }

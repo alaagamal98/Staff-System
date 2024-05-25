@@ -32,7 +32,7 @@ Rectangle {
             source: LoginDriver.state === LoginDriver.StateLoggedIn ? "qrc:/StaffSystem/resources/UserItem.qml" : "qrc:/StaffSystem/resources/LoginItem.qml"
 
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 20
+            Layout.topMargin: 100
             Layout.fillWidth: true
         }
     }
