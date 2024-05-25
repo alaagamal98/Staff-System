@@ -7,7 +7,7 @@ import StaffSystem
 ColumnLayout {
     id: root
 
-    property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Email", "Gender", "Age", "Academic Degree", "Manager", "Role"]
+    property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Gender", "Age", "Academic Degree", "Manager", "Role", "More Info"]
     property var tableRows: StaffDriver.reportStaffList()
     property var rowCurrentIndex: 0
 
@@ -21,12 +21,28 @@ ColumnLayout {
         horizontalAlignment: Qt.AlignHCenter
         Layout.fillWidth: true
         color: "#FFFFFF"
-        font.pixelSize: 20
+        font.pixelSize: 40
         font.bold: true
         Layout.bottomMargin: 50
         Layout.topMargin: 50
         objectName: "headerLbl"
         text: "Staff Database"
+    }
+
+    Button {
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredWidth: 200
+        Layout.topMargin: 5
+        Layout.leftMargin: 15
+
+        leftPadding: 8
+        rightPadding: 8
+        topPadding: 8
+        bottomPadding: 8
+        font.pixelSize: 18
+        text: "Add New Employee"
+
+        onClicked: staffAddPopup.open()
     }
 
     HorizontalHeaderView {
@@ -41,6 +57,9 @@ ColumnLayout {
         delegate: Rectangle {
             border.width: 1
             color: "#A9E0E6"
+            implicitHeight: parent.height
+            implicitWidth: parent.width / tableHeaderInfo.size
+
             Label {
                 text: root.tableHeaderInfo[index]
                 padding: 10
@@ -77,9 +96,6 @@ ColumnLayout {
                 display: "Last Name"
             }
             TableModelColumn {
-                display: "Email"
-            }
-            TableModelColumn {
                 display: "Gender"
             }
             TableModelColumn {
@@ -94,31 +110,71 @@ ColumnLayout {
             TableModelColumn {
                 display: "Role"
             }
+            TableModelColumn {
+                display: "More Info"
+            }
             rows: []
         }
+        delegate: DelegateChooser {
 
-        delegate: Item {
-            implicitWidth: tableView.width / tableView.columns
-            implicitHeight: childrenRect.height
+            DelegateChoice {
+                column: 9
 
-            Rectangle {
+                delegate: Item {
+                    implicitWidth: tableView.width / tableView.columns
+                    implicitHeight: childrenRect.height
 
-                border.width: 1
-                anchors.fill: parent
+                    Rectangle {
 
-                color: "#A9E0E6"
+                        border.width: 1
+                        anchors.fill: parent
+
+                        color: "#A9E0E6"
+                    }
+
+                    Button {
+
+                        anchors.centerIn: parent
+                        icon.source: "qrc:/StaffSystem/icons/more.svg"
+                        onClicked: {
+                            staffDetailsPopup.employeeId = tableView.model.rows[row].Id;
+                            staffDetailsPopup.open();
+                        }
+                    }
+                }
             }
 
-            Label {
-                id: dataCell
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-                color: "#292E5F"
-                padding: 10
-                width: parent.width
-                wrapMode: Text.WordWrap
-                text: model.display
+            DelegateChoice {
+
+                delegate: Item {
+                    implicitWidth: tableView.width / tableView.columns
+                    implicitHeight: childrenRect.height
+                    Rectangle {
+
+                        border.width: 1
+                        anchors.fill: parent
+
+                        color: "#A9E0E6"
+                    }
+
+                    Text {
+                        id: dataCell
+
+                        color: "#292E5F"
+                        padding: 10
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                        verticalAlignment: Qt.AlignVCenter
+                        horizontalAlignment: Qt.AlignHCenter
+                        text: model.display
+                    }
+                }
             }
+        }
+
+        ScrollBar.vertical: ScrollBar {
+            id: tableVerticalBar
+            policy: ScrollBar.AlwaysOn
         }
     }
 
@@ -139,5 +195,21 @@ ColumnLayout {
                 rowCurrentIndex++;
             }
         }
+    }
+
+    StaffDetailsPopup {
+        id: staffDetailsPopup
+
+        height: parent.height * 3 / 4
+        width: parent.width * 3 / 4
+        anchors.centerIn: parent
+    }
+
+    StaffAddPopup {
+        id: staffAddPopup
+
+        height: parent.height * 3 / 4
+        width: parent.width * 3 / 4
+        anchors.centerIn: parent
     }
 }

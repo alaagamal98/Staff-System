@@ -86,6 +86,8 @@ qt_add_qml_module(StaffSystem
 		resources/StaffList.qml
 		resources/UserItem.qml
 		resources/LoginItem.qml
+		resources/StaffAddPopup.qml
+		resources/StaffDetailsPopup.qml
 	SOURCES
 		${OS_RESOURCES_FILES}
 		include/StaffSystem/SystemDriver.h
@@ -112,6 +114,8 @@ qt_add_qml_module(StaffSystem
 		icons/error.svg
 		icons/account-circle.svg
 		icons/logout.svg
+		icons/close.svg
+		icons/more.svg
 )
 
 target_include_directories(StaffSystem

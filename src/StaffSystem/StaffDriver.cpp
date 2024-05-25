@@ -70,12 +70,12 @@ namespace client::system
 					{"Username", employee->username()},
 					{"First Name", employee->firstName()},
 					{"Last Name", employee->lastName()},
-					{"Email", employee->email()},
 					{"Gender", gender},
 					{"Age", employee->age()},
 					{"Academic Degree", employee->academicDegree()},
 					{"Manager", employee->manager()},
 					{"Role", role.c_str()},
+					{"More Info", ""},
 				});
 			}
 		}
