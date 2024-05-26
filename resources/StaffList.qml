@@ -69,6 +69,7 @@ ColumnLayout {
             color: "#A9E0E6"
             implicitHeight: parent.height
             implicitWidth: parent.width / tableHeaderInfo.size
+			visible: tableRows.length > 0
 
             Label {
                 text: root.tableHeaderInfo[index]

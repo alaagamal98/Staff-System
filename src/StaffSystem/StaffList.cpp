@@ -215,7 +215,10 @@ namespace client::system
 
 		auto idx = employee["Id"].toInt();
 		if (idx == 0)
-			idx = mLastIdx + 1;
+		{
+			mLastIdx++;
+			idx = mLastIdx;
+		}
 
 		new_employee->setId(idx);
 		new_employee->setUsername(employee["Username"].toString());
