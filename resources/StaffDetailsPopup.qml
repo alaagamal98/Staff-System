@@ -69,12 +69,12 @@ Popup {
             id: photoRow
 
             Layout.fillWidth: true
-            Layout.margins: -50
+            Layout.margins: -40
             Layout.alignment: Qt.AlignHCenter
 
             Image {
                 id: avatar
-                source: "qrc:/StaffSystem/icons/account-circle.svg"
+                source: employee.photo
                 width: 200
                 height: 200
                 sourceSize: Qt.size(width, height)
@@ -476,7 +476,7 @@ Popup {
                             "Email": emailInput.text,
                             "Gender": genderInput.currentValue,
                             "Age": ageInput.value,
-                            "Photo": "",
+                            "Photo": avatar.source,
                             "AcademicDegree": academicDegreeInput.text,
                             "Manager": managerInput.currentText,
                             "Role": roleInput.currentValue

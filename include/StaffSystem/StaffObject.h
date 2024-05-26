@@ -19,7 +19,7 @@ namespace client::system
 		Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
 		Q_PROPERTY(Gender gender READ gender WRITE setGender NOTIFY genderChanged)
 		Q_PROPERTY(size_t age READ age WRITE setAge NOTIFY ageChanged)
-		Q_PROPERTY(QByteArray photo READ photo WRITE setPhoto NOTIFY photoChanged)
+		Q_PROPERTY(QUrl photo READ photo WRITE setPhoto NOTIFY photoChanged)
 		Q_PROPERTY(QString academicDegree READ academicDegree WRITE setAcademicDegree NOTIFY academicDegreeChanged)
 		Q_PROPERTY(QString manager READ manager WRITE setManager NOTIFY managerChanged)
 		Q_PROPERTY(StaffType staffType READ staffType WRITE setStaffType NOTIFY staffTypeChanged)
@@ -126,8 +126,8 @@ namespace client::system
 			emit ageChanged(mAge);
 		}
 
-		QByteArray photo() const { return mPhoto; }
-		void setPhoto(const QByteArray& value)
+		QUrl photo() const { return mPhoto; }
+		void setPhoto(const QUrl& value)
 		{
 			if (mPhoto == value)
 				return;
@@ -171,7 +171,7 @@ namespace client::system
 		void emailChanged(const QString& email);
 		void genderChanged(Gender gender);
 		void ageChanged(size_t age);
-		void photoChanged(const QByteArray& photo);
+		void photoChanged(const QUrl& photo);
 		void academicDegreeChanged(const QString& academicDegree);
 		void managerChanged(const QString& manager);
 		void staffTypeChanged(StaffType staffType);
@@ -185,7 +185,7 @@ namespace client::system
 		QString mEmail;
 		Gender mGender;
 		size_t mAge;
-		QByteArray mPhoto;
+		QUrl mPhoto;
 		QString mAcademicDegree;
 		QString mManager;
 		StaffType mStaffType;

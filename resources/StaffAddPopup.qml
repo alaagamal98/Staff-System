@@ -9,6 +9,7 @@ Popup {
 
     property var currentUserRole
     property var currentManagers
+    property var photoLoaded: false
 
     objectName: "staffAddPopup"
     closePolicy: Popup.NoAutoClose
@@ -72,7 +73,7 @@ Popup {
             id: photoRow
 
             Layout.fillWidth: true
-            Layout.margins: -50
+            Layout.margins: -40
             Layout.alignment: Qt.AlignHCenter
 
             Image {
@@ -416,7 +417,7 @@ Popup {
                     color: "#A9E0E6"
                 }
                 onClicked: {
-                    if ((usernameInput.text === "" && usernameInput.enabled) || (passwordInput.text === "" && passwordInput.enabled) || firstNameInput.text === "" || lastNameInput.text === "" || emailInput.text === "" || genderInput.currentIndex === -1 || ageInput.value === 0 || academicDegreeInput.text === "" || roleInput.currentIndex === -1 || (managerInput.currentIndex === -1 && managerInput.enabled)) {
+                    if ((usernameInput.text === "" && usernameInput.enabled) || (passwordInput.text === "" && passwordInput.enabled) || firstNameInput.text === "" || lastNameInput.text === "" || emailInput.text === "" || genderInput.currentIndex === -1 || ageInput.value === 0 || academicDegreeInput.text === "" || roleInput.currentIndex === -1 || (managerInput.currentIndex === -1 && managerInput.enabled) || !photoLoaded) {
                         error.text = "There's missing parameters..";
                         return;
                     }
@@ -442,7 +443,7 @@ Popup {
                         "Email": emailInput.text,
                         "Gender": genderInput.currentValue,
                         "Age": ageInput.value,
-                        "Photo": "",
+                        "Photo": avatar.source,
                         "AcademicDegree": academicDegreeInput.text,
                         "Manager": managerInput.currentText,
                         "Role": roleInput.currentValue
@@ -463,6 +464,7 @@ Popup {
 
         onAccepted: {
             avatar.source = selectedFile;
+            photoLoaded = true
         }
     }
 }

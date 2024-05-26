@@ -56,7 +56,7 @@ namespace client::system
 			else if (column == "Photo")
 			{
 				auto photo = std::string(col_content[j]);
-				employee->setPhoto(QByteArray(photo.c_str(), photo.length()));
+				employee->setPhoto(QUrl::fromLocalFile(QString::fromStdString(photo)));
 			}
 			else if (column == "AcademicDegree")
 			{

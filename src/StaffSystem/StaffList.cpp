@@ -225,7 +225,7 @@ namespace client::system
 		new_employee->setEmail(employee["Email"].toString());
 		new_employee->setGender(Staff::Gender(employee["Gender"].toInt()));
 		new_employee->setAge(employee["Age"].toUInt());
-		new_employee->setPhoto(employee["Photo"].toByteArray());
+		new_employee->setPhoto(employee["Photo"].toUrl());
 		new_employee->setAcademicDegree(employee["AcademicDegree"].toString());
 		new_employee->setManager(employee["Manager"].toString());
 		new_employee->setStaffType(Staff::StaffType(employee["Role"].toInt()));

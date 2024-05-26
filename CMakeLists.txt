@@ -116,6 +116,7 @@ qt_add_qml_module(StaffSystem
 		icons/logout.svg
 		icons/close.svg
 		icons/more.svg
+		icons/sort.svg
 )
 
 target_include_directories(StaffSystem

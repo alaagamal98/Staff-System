@@ -115,7 +115,7 @@ namespace client::system
 		query.append("', ");
 		query.append(std::to_string(employee->age()));
 		query.append(", '");
-		query.append(employee->photo().toStdString());
+		query.append(employee->photo().toLocalFile().toStdString());
 		query.append("', '");
 		query.append(employee->academicDegree().toStdString());
 		query.append("', '");
@@ -158,7 +158,7 @@ namespace client::system
 		query.append("', Age=");
 		query.append(std::to_string(employee->age()));
 		query.append(", Photo='");
-		query.append(employee->photo().toStdString());
+		query.append(employee->photo().toLocalFile().toStdString());
 		query.append("', AcademicDegree='");
 		query.append(employee->academicDegree().toStdString());
 		query.append("', Manager='");
