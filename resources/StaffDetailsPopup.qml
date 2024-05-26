@@ -13,6 +13,7 @@ Popup {
     property var popupOpened
 
     signal updateRow
+    signal removeRow(var id)
 
     objectName: "staffDetailsPopup"
     padding: 0
@@ -437,6 +438,7 @@ Popup {
                 }
                 onClicked: {
                     StaffDriver.staffList.removeStaff(employee.id);
+                    _root.removeRow(employee.id);
                     _root.close();
                 }
             }

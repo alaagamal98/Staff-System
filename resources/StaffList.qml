@@ -8,8 +8,7 @@ ColumnLayout {
     id: root
 
     property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Gender", "Age", "Academic Degree", "Manager", "Role", "More Info"]
-    property var sortingColumn: "Id"
-    property var tableRows: StaffDriver.reportStaffList(sortingColumn)
+    property var tableRows: StaffDriver.reportStaffList()
     property var rowCurrentIndex: 0
     property var rowSelectedIndex: 0
 
@@ -32,26 +31,68 @@ ColumnLayout {
         objectName: "headerLbl"
         text: "Staff Database"
     }
-
-    Button {
+    RowLayout {
+        Layout.fillWidth: true
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredWidth: 200
-        Layout.topMargin: 5
-        Layout.leftMargin: 15
 
-        leftPadding: 8
-        rightPadding: 8
-        topPadding: 8
-        bottomPadding: 8
-        font.pixelSize: 18
-        text: "Add New Employee"
-        visible: currentUserRole === 0 || currentUserRole === 1
+        Button {
+            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            Layout.preferredWidth: 200
+            Layout.topMargin: 5
+            Layout.leftMargin: 15
 
-        onClicked: {
-            staffAddPopup.currentUserRole = StaffDriver.currentEmployee.staffType
-            staffAddPopup.currentManagers = StaffDriver.staffList.getManagers()
-            staffAddPopup.reset()
-            staffAddPopup.open()
+            leftPadding: 8
+            rightPadding: 8
+            topPadding: 8
+            bottomPadding: 8
+            font.pixelSize: 18
+            text: "Reset"
+
+            onClicked: {
+                tableRows = StaffDriver.reportStaffList();
+                tableView.model.rows = tableRows;
+            }
+        }
+
+        Button {
+            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            Layout.preferredWidth: 200
+            Layout.topMargin: 5
+            Layout.leftMargin: 15
+
+            leftPadding: 8
+            rightPadding: 8
+            topPadding: 8
+            bottomPadding: 8
+            font.pixelSize: 18
+            text: "Filter and Search"
+
+            onClicked: {
+                staffFilterPopup.currentManagers = StaffDriver.staffList.getManagers();
+                staffFilterPopup.reset();
+                staffFilterPopup.open();
+            }
+        }
+
+        Button {
+            Layout.preferredWidth: 200
+            Layout.topMargin: 5
+            Layout.leftMargin: 15
+
+            leftPadding: 8
+            rightPadding: 8
+            topPadding: 8
+            bottomPadding: 8
+            font.pixelSize: 18
+            text: "Add New Employee"
+            visible: currentUserRole === 0 || currentUserRole === 1
+
+            onClicked: {
+                staffAddPopup.currentUserRole = StaffDriver.currentEmployee.staffType;
+                staffAddPopup.currentManagers = StaffDriver.staffList.getManagers();
+                staffAddPopup.reset();
+                staffAddPopup.open();
+            }
         }
     }
 
@@ -69,7 +110,7 @@ ColumnLayout {
             color: "#A9E0E6"
             implicitHeight: parent.height
             implicitWidth: parent.width / tableHeaderInfo.size
-			visible: tableRows.length > 0
+            visible: tableRows.length > 0
 
             Label {
                 text: root.tableHeaderInfo[index]
@@ -82,15 +123,15 @@ ColumnLayout {
 
                 implicitWidth: 20
                 implicitHeight: 20
-				anchors.right: parent.right
-				visible: index !== 9
+                anchors.right: parent.right
+                visible: index !== 9
 
                 icon.source: "qrc:/StaffSystem/icons/sort.svg"
 
-				onClicked: {
-					sortingColumn = root.tableHeaderInfo[index]
-					tableView.model.rows = StaffDriver.reportStaffList(sortingColumn)
-				}
+                onClicked: {
+                    tableRows = StaffDriver.sortStaff(tableRows, root.tableHeaderInfo[index]);
+                    tableView.model.rows = tableRows;
+                }
             }
         }
     }
@@ -162,13 +203,13 @@ ColumnLayout {
                         text: " Details"
                         icon.source: "qrc:/StaffSystem/icons/more.svg"
                         onClicked: {
-                            staffDetailsPopup.employee = StaffDriver.staffList.getStaff(tableView.model.rows[row].Id)
-                            rowSelectedIndex = row
-                            staffDetailsPopup.currentUserRole = StaffDriver.currentEmployee.staffType
-                            staffDetailsPopup.currentManagers = StaffDriver.staffList.getManagers()
-                            staffDetailsPopup.reset()
-                            staffDetailsPopup.popupOpened = true
-                            staffDetailsPopup.open()
+                            staffDetailsPopup.employee = StaffDriver.staffList.getStaff(tableView.model.rows[row].Id);
+                            rowSelectedIndex = row;
+                            staffDetailsPopup.currentUserRole = StaffDriver.currentEmployee.staffType;
+                            staffDetailsPopup.currentManagers = StaffDriver.staffList.getManagers();
+                            staffDetailsPopup.reset();
+                            staffDetailsPopup.popupOpened = true;
+                            staffDetailsPopup.open();
                         }
                     }
                 }
@@ -210,25 +251,8 @@ ColumnLayout {
 
     Component.onCompleted: {
         while (rowCurrentIndex < tableRows.length) {
-            tableView.model.appendRow(tableRows[rowCurrentIndex])
-            rowCurrentIndex++
-        }
-    }
-
-    Connections {
-        target: StaffDriver.staffList
-
-        function onCountChanged() {
-            tableRows = StaffDriver.reportStaffList(sortingColumn)
-            if (rowCurrentIndex < tableRows.length) {
-                StaffDriver.insertStaffToDB(tableRows[rowCurrentIndex].Id)
-                tableView.model.appendRow(tableRows[rowCurrentIndex])
-                rowCurrentIndex++
-            } else {
-                StaffDriver.removeStaffFromDB(tableView.model.getRow(rowSelectedIndex).Id)
-                tableView.model.removeRow(rowSelectedIndex)
-                rowCurrentIndex--
-            }
+            tableView.model.appendRow(tableRows[rowCurrentIndex]);
+            rowCurrentIndex++;
         }
     }
 
@@ -240,8 +264,14 @@ ColumnLayout {
         anchors.centerIn: parent
 
         onUpdateRow: function () {
-            tableRows = StaffDriver.reportStaffList(sortingColumn)
-            tableView.model.setRow(rowSelectedIndex, tableRows[rowSelectedIndex])
+            var updatedRow = StaffDriver.getRow(tableRows[rowSelectedIndex].Id);
+            tableView.model.setRow(rowSelectedIndex, updatedRow);
+        }
+        onRemoveRow: function (id) {
+            StaffDriver.removeStaffFromDB(id);
+            tableView.model.removeRow(rowSelectedIndex);
+            tableRows = tableView.model.rows
+            rowCurrentIndex--;
         }
     }
 
@@ -251,5 +281,27 @@ ColumnLayout {
         height: parent.height - 100
         width: parent.width - 100
         anchors.centerIn: parent
+
+        onAddRow: function () {
+            var insertedIdx = StaffDriver.staffList.lastIdx();
+            StaffDriver.insertStaffToDB(insertedIdx);
+            var insertedRow = StaffDriver.getRow(insertedIdx);
+            tableView.model.appendRow(insertedRow);
+            tableRows = tableView.model.rows
+            rowCurrentIndex++;
+        }
+    }
+
+    StaffFilterPopup {
+        id: staffFilterPopup
+
+        height: parent.height - 100
+        width: parent.width - 100
+        anchors.centerIn: parent
+
+        onSearch: function (filters) {
+            tableRows = StaffDriver.searchStaff(filters);
+            tableView.model.rows = tableRows;
+        }
     }
 }

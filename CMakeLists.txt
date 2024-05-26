@@ -88,6 +88,7 @@ qt_add_qml_module(StaffSystem
 		resources/LoginItem.qml
 		resources/StaffAddPopup.qml
 		resources/StaffDetailsPopup.qml
+		resources/StaffFilterPopup.qml
 	SOURCES
 		${OS_RESOURCES_FILES}
 		include/StaffSystem/SystemDriver.h

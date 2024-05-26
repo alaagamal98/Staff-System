@@ -11,20 +11,17 @@ Popup {
     property var currentManagers
     property var photoLoaded: false
 
-    signal addRow
+    signal search(var filters)
 
-    objectName: "staffAddPopup"
+    objectName: "staffFilterPopup"
     closePolicy: Popup.NoAutoClose
 
     function reset() {
         usernameInput.text = "";
-        passwordInput.text = "";
         firstNameInput.text = "";
         lastNameInput.text = "";
-        emailInput.text = "";
         genderInput.currentIndex = -1;
         ageInput.value = 0;
-        avatar.source = "qrc:/StaffSystem/icons/account-circle.svg";
         academicDegreeInput.text = "";
         roleInput.currentIndex = -1;
         var managers = [];
@@ -33,8 +30,8 @@ Popup {
         }
         managerInput.model = managers;
         managerInput.currentIndex = -1;
-        error.text = "";
     }
+
     ColumnLayout {
         id: content
 
@@ -54,7 +51,7 @@ Popup {
                 Layout.leftMargin: 50
                 font.pixelSize: 30
                 font.bold: true
-                text: "Add a New Staff Member"
+                text: "Search and Filter"
                 color: "#292E5F"
             }
 
@@ -67,23 +64,9 @@ Popup {
                 Layout.rightMargin: 10
                 icon.source: "qrc:/StaffSystem/icons/close.svg"
 
-                onClicked: _root.close()
-            }
-        }
-
-        RowLayout {
-            id: photoRow
-
-            Layout.fillWidth: true
-            Layout.margins: -40
-            Layout.alignment: Qt.AlignHCenter
-
-            Image {
-                id: avatar
-                source: "qrc:/StaffSystem/icons/account-circle.svg"
-                width: 200
-                height: 200
-                sourceSize: Qt.size(width, height)
+                onClicked: {
+                    _root.close();
+                }
             }
         }
 
@@ -156,34 +139,20 @@ Popup {
 
                 textRole: "text"
                 valueRole: "value"
-                model: {
-                    if (currentUserRole === 0)
-                        return [
-                            {
-                                "text": "HR",
-                                "value": 1
-                            },
-                            {
-                                "text": "Manager",
-                                "value": 2
-                            },
-                            {
-                                "text": "Employee",
-                                "value": 3
-                            }
-                        ];
-                    else if (currentUserRole === 1)
-                        return [
-                            {
-                                "text": "Manager",
-                                "value": 2
-                            },
-                            {
-                                "text": "Employee",
-                                "value": 3
-                            }
-                        ];
-                }
+                model: [
+                    {
+                        "text": "HR",
+                        "value": 1
+                    },
+                    {
+                        "text": "Manager",
+                        "value": 2
+                    },
+                    {
+                        "text": "Employee",
+                        "value": 3
+                    }
+                ]
             }
         }
 
@@ -241,11 +210,11 @@ Popup {
                 model: [
                     {
                         "text": "Male",
-                        "value": 0
+                        "value": 1
                     },
                     {
                         "text": "Female",
-                        "value": 1
+                        "value": 2
                     }
                 ]
             }
@@ -295,7 +264,6 @@ Popup {
                 Layout.preferredWidth: 300
                 Layout.preferredHeight: 45
                 Layout.leftMargin: 15
-                enabled: roleInput.currentValue === 3
                 Component.onCompleted: {
                     var managers = [];
                     for (var i = 0; i < currentManagers.length; ++i) {
@@ -325,68 +293,6 @@ Popup {
                 verticalAlignment: Qt.AlignVCenter
                 placeholderText: "Username"
                 font.pixelSize: 16
-                enabled: roleInput.currentValue === 1 || roleInput.currentValue === 2
-            }
-
-            Text {
-                id: passwordText
-                Layout.leftMargin: 15
-                Layout.preferredHeight: 45
-                Layout.preferredWidth: 120
-                verticalAlignment: Qt.AlignVCenter
-                text: "Password: "
-                font.pixelSize: 16
-            }
-
-            TextField {
-                id: passwordInput
-                Layout.leftMargin: 15
-                Layout.preferredHeight: 45
-                Layout.preferredWidth: 300
-                verticalAlignment: Qt.AlignVCenter
-                placeholderText: "Password"
-                font.pixelSize: 16
-                echoMode: TextInput.Password
-                enabled: roleInput.currentValue === 1 || roleInput.currentValue === 2
-            }
-        }
-
-        RowLayout {
-            id: fourthInputRow
-
-            Layout.fillWidth: true
-            Layout.margins: 10
-            Layout.leftMargin: 50
-
-            Text {
-                id: emailText
-                Layout.leftMargin: 15
-                Layout.preferredHeight: 45
-                Layout.preferredWidth: 120
-                verticalAlignment: Qt.AlignVCenter
-                text: "Email: "
-                font.pixelSize: 16
-            }
-
-            TextField {
-                id: emailInput
-                Layout.leftMargin: 15
-                Layout.preferredHeight: 45
-                Layout.preferredWidth: 300
-                verticalAlignment: Qt.AlignVCenter
-                placeholderText: "Email"
-                font.pixelSize: 16
-            }
-
-            Button {
-                id: photoInput
-                Layout.leftMargin: 150
-                Layout.preferredHeight: 45
-                Layout.preferredWidth: 300
-                Layout.alignment: Qt.AlignVCenter
-                text: "Upload Photo"
-                font.pixelSize: 16
-                onClicked: fileDialog.open()
             }
         }
 
@@ -413,61 +319,26 @@ Popup {
                 Layout.preferredHeight: 45
                 Layout.preferredWidth: 300
                 Layout.alignment: Qt.AlignVCenter
-                text: "Add Staff Member"
+                text: "Search"
                 font.pixelSize: 16
                 background: Rectangle {
                     color: "#A9E0E6"
                 }
                 onClicked: {
-                    if ((usernameInput.text === "" && usernameInput.enabled) || (passwordInput.text === "" && passwordInput.enabled) || firstNameInput.text === "" || lastNameInput.text === "" || emailInput.text === "" || genderInput.currentIndex === -1 || ageInput.value === 0 || academicDegreeInput.text === "" || roleInput.currentIndex === -1 || (managerInput.currentIndex === -1 && managerInput.enabled) || !photoLoaded) {
-                        error.text = "There's missing parameters..";
-                        return;
-                    }
-                    var duplicate_username = false;
-                    if (usernameInput.text !== "") {
-                        var employees = StaffDriver.staffList.employees();
-                        for (var i = 0; i < employees.length; ++i) {
-                            if (employees[i].username === usernameInput.text) {
-                                duplicate_username = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (duplicate_username) {
-                        error.text = "Username already used, Choose another one..";
-                        return;
-                    }
-                    let new_employee = {
+                    let filters = {
                         "Username": usernameInput.text,
-                        "Password": passwordInput.text,
                         "FirstName": firstNameInput.text,
                         "LastName": lastNameInput.text,
-                        "Email": emailInput.text,
                         "Gender": genderInput.currentValue,
                         "Age": ageInput.value,
-                        "Photo": avatar.source,
                         "AcademicDegree": academicDegreeInput.text,
                         "Manager": managerInput.currentText,
                         "Role": roleInput.currentValue
                     };
-                    StaffDriver.staffList.addOrUpdateStaff(new_employee);
-					_root.addRow()
+                    _root.search(filters);
                     _root.close();
                 }
             }
-        }
-    }
-
-    FileDialog {
-        id: fileDialog
-
-        title: "Choose Photo"
-        fileMode: FileDialog.OpenFiles
-        nameFilters: ["Case Files (*.png *.jpg)", "All Files (*)"]
-
-        onAccepted: {
-            avatar.source = selectedFile;
-            photoLoaded = true
         }
     }
 }
