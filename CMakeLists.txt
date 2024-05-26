@@ -57,32 +57,15 @@ find_package(SQLite3 REQUIRED)
 
 qt_add_executable(StaffSystem)
 
-set_source_files_properties(resources/Globals.qml
-	PROPERTIES
-		QT_QML_SINGLETON_TYPE TRUE
-)
-
-set_source_files_properties(resources/StatusBar.qml
-	PROPERTIES
-		QT_QML_SINGLETON_TYPE TRUE
-)
-
 qt_add_qml_module(StaffSystem
 	URI StaffSystem
 	VERSION 1.0
 	RESOURCE_PREFIX /
 	QML_FILES
 		resources/main.qml
-		resources/Globals.qml
 		resources/HomePage.qml
 		resources/HomeSideBar.qml
 		resources/LoadingPage.qml
-		resources/ProgressDialog.qml
-		resources/Notification.qml
-		resources/NotificationManager.qml
-		resources/EmployeeDialog.qml
-		resources/ToolBar.qml
-		resources/AddEmployeeButton.qml
 		resources/StaffList.qml
 		resources/UserItem.qml
 		resources/LoginItem.qml
@@ -105,14 +88,6 @@ qt_add_qml_module(StaffSystem
 		src/StaffSystem/Parser.cpp
 	RESOURCES
 		icons/siemens.svg
-		icons/plus-circle-on.svg
-		icons/plus-circle.svg
-		icons/info.svg
-		icons/tip.svg
-		icons/note.svg
-		icons/success.svg
-		icons/warning.svg
-		icons/error.svg
 		icons/account-circle.svg
 		icons/logout.svg
 		icons/close.svg

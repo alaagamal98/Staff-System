@@ -108,9 +108,9 @@ ColumnLayout {
         delegate: Rectangle {
             border.width: 1
             color: "#A9E0E6"
+            visible: tableRows.length > 0
             implicitHeight: parent.height
             implicitWidth: parent.width / tableHeaderInfo.size
-            visible: tableRows.length > 0
 
             Label {
                 text: root.tableHeaderInfo[index]
@@ -187,7 +187,6 @@ ColumnLayout {
 
                 delegate: Item {
                     implicitWidth: tableView.width / tableView.columns
-                    implicitHeight: childrenRect.height
 
                     Rectangle {
 
@@ -270,7 +269,7 @@ ColumnLayout {
         onRemoveRow: function (id) {
             StaffDriver.removeStaffFromDB(id);
             tableView.model.removeRow(rowSelectedIndex);
-            tableRows = tableView.model.rows
+            tableRows = tableView.model.rows;
             rowCurrentIndex--;
         }
     }
@@ -287,7 +286,7 @@ ColumnLayout {
             StaffDriver.insertStaffToDB(insertedIdx);
             var insertedRow = StaffDriver.getRow(insertedIdx);
             tableView.model.appendRow(insertedRow);
-            tableRows = tableView.model.rows
+            tableRows = tableView.model.rows;
             rowCurrentIndex++;
         }
     }

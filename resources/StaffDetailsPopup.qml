@@ -28,6 +28,7 @@ Popup {
         managerInput.currentIndex = managerInput.find(employee.manager);
         popupOpened = false;
         error.text = "";
+        avatar.source = employee.photo;
     }
 
     ColumnLayout {
@@ -75,7 +76,6 @@ Popup {
 
             Image {
                 id: avatar
-                source: employee.photo
                 width: 200
                 height: 200
                 sourceSize: Qt.size(width, height)
@@ -311,15 +311,8 @@ Popup {
                 Layout.preferredHeight: 45
                 Layout.leftMargin: 15
                 enabled: roleInput.currentValue === 3 && currentUserRole !== 2
-
-                Component.onCompleted: {
-                    var managers = [];
-                    for (var i = 0; i < currentManagers.length; ++i) {
-                        managers.push(currentManagers[i].username);
-                    }
-                    model = managers;
-                }
                 currentIndex: -1
+                displayText: currentIndex === -1 ? "Select Manager..." : currentText
             }
 
             Text {

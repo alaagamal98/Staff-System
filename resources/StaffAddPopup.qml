@@ -296,14 +296,7 @@ Popup {
                 Layout.preferredHeight: 45
                 Layout.leftMargin: 15
                 enabled: roleInput.currentValue === 3
-                Component.onCompleted: {
-                    var managers = [];
-                    for (var i = 0; i < currentManagers.length; ++i) {
-                        managers.push(currentManagers[i].username);
-                    }
-                    model = managers;
-                    currentIndex = -1;
-                }
+                currentIndex: -1
                 displayText: currentIndex === -1 ? "Select Manager..." : currentText
             }
 
@@ -451,7 +444,7 @@ Popup {
                         "Role": roleInput.currentValue
                     };
                     StaffDriver.staffList.addOrUpdateStaff(new_employee);
-					_root.addRow()
+                    _root.addRow();
                     _root.close();
                 }
             }
@@ -467,7 +460,7 @@ Popup {
 
         onAccepted: {
             avatar.source = selectedFile;
-            photoLoaded = true
+            photoLoaded = true;
         }
     }
 }

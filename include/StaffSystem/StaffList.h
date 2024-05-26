@@ -14,7 +14,7 @@ namespace client::system
 	{
 		Q_OBJECT
 		QML_SINGLETON
-		Q_PROPERTY(int count READ count NOTIFY countChanged) // To be bindable from qml
+		Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 	public:
 		StaffList(QObject* parent = nullptr);

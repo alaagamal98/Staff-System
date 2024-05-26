@@ -19,9 +19,9 @@ Rectangle {
 
             function onStateChanged(state) {
                 if (state === LoginDriver.StateLoggedIn) {
-                    loginView.source = "qrc:/StaffSystem/resources/UserItem.qml"
+                    loginView.source = "qrc:/StaffSystem/resources/UserItem.qml";
                 } else if (state === LoginDriver.StateLoggedOut) {
-                    loginView.source = "qrc:/StaffSystem/resources/LoginItem.qml"
+                    loginView.source = "qrc:/StaffSystem/resources/LoginItem.qml";
                 }
             }
         }

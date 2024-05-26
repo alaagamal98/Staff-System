@@ -71,12 +71,6 @@ namespace client::system
 		// sent whenever the login driver state changes
 		void stateChanged(LoginDriver::State state);
 
-		// sent whenever username changes
-		void usernameChanged(QString username);
-
-		// sent whenever avatar changes
-		void avatarChanged(QByteArray avatar);
-
 	private:
 		LoginDriver(QObject* parent = nullptr);
 		// helper function which changes the login driver state

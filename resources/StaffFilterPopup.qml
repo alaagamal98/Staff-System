@@ -264,14 +264,7 @@ Popup {
                 Layout.preferredWidth: 300
                 Layout.preferredHeight: 45
                 Layout.leftMargin: 15
-                Component.onCompleted: {
-                    var managers = [];
-                    for (var i = 0; i < currentManagers.length; ++i) {
-                        managers.push(currentManagers[i].username);
-                    }
-                    model = managers;
-                    currentIndex = -1;
-                }
+                currentIndex: -1
                 displayText: currentIndex === -1 ? "Select Manager..." : currentText
             }
 

@@ -45,7 +45,7 @@ ColumnLayout {
 
             text: "First Name: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
 
@@ -54,7 +54,7 @@ ColumnLayout {
 
             text: "Last Name: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
     }
@@ -69,7 +69,7 @@ ColumnLayout {
             id: firstNameInput
             text: StaffDriver.currentEmployee.firstName
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
@@ -78,12 +78,11 @@ ColumnLayout {
             id: lastNameInput
             text: StaffDriver.currentEmployee.lastName
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
     }
-
 
     RowLayout {
         id: secondTextRow
@@ -96,7 +95,7 @@ ColumnLayout {
 
             text: "Age: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
 
@@ -105,7 +104,7 @@ ColumnLayout {
 
             text: "Gender: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
     }
@@ -120,7 +119,7 @@ ColumnLayout {
             id: ageInput
             text: StaffDriver.currentEmployee.age
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
@@ -129,7 +128,7 @@ ColumnLayout {
             id: genderInput
             text: StaffDriver.currentEmployee.gender == 0 ? "Male" : "Female"
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
@@ -146,7 +145,7 @@ ColumnLayout {
 
             text: "Role: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
 
@@ -155,7 +154,7 @@ ColumnLayout {
 
             text: "Manager: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
     }
@@ -179,7 +178,7 @@ ColumnLayout {
                     return "Employee";
             }
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
@@ -188,11 +187,10 @@ ColumnLayout {
             id: managrInput
             text: StaffDriver.currentEmployee.manager
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
-
     }
 
     RowLayout {
@@ -206,7 +204,7 @@ ColumnLayout {
 
             text: "Academic Degree: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
 
@@ -215,7 +213,7 @@ ColumnLayout {
 
             text: "Email: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
     }
@@ -230,7 +228,7 @@ ColumnLayout {
             id: academicDegreeInput
             text: StaffDriver.currentEmployee.academicDegree
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
@@ -239,13 +237,13 @@ ColumnLayout {
             id: emailInput
             text: StaffDriver.currentEmployee.email
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
     }
 
-	    RowLayout {
+    RowLayout {
         id: fifthTextRow
 
         Layout.fillWidth: true
@@ -256,12 +254,12 @@ ColumnLayout {
 
             text: "Username: "
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
         }
     }
 
-	    RowLayout {
+    RowLayout {
         id: fifthInputRow
 
         Layout.fillWidth: true
@@ -271,7 +269,7 @@ ColumnLayout {
             id: usernameInput
             text: StaffDriver.currentEmployee.username
             font.pixelSize: 16
-        	Layout.preferredWidth: 130
+            Layout.preferredWidth: 130
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             color: "#FFFFFF"
         }
@@ -292,5 +290,4 @@ ColumnLayout {
             onClicked: LoginDriver.logout()
         }
     }
-
 }

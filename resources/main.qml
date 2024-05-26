@@ -49,45 +49,4 @@ ApplicationWindow {
             id: loadingPage
         }
     }
-
-    Connections {
-        target: Globals
-
-        function onPageChanged(page) {
-            switch (page) {
-            case Globals.Page.Home:
-                pageLayout.currentIndex = homePage.SwipeView.index
-                break
-            case Globals.Page.Loading:
-                loadingPage.value = 0.0
-                pageLayout.currentIndex = loadingPage.SwipeView.index
-                break
-            default:
-                console.assert(false, "unreachable")
-            }
-        }
-
-        function onProgressStarted(message) {
-            progressDialog.text = message
-            progressDialog.open()
-        }
-
-        function onProgressUpdated(percent) {
-            progressDialog.value = percent
-        }
-
-        function onProgressFinished() {
-            progressDialog.close()
-        }
-    }
-
-    ProgressDialog {
-        id: progressDialog
-
-        anchors.centerIn: Overlay.overlay
-    }
-
-    Component.onCompleted: {
-        Globals.window = root
-    }
 }
