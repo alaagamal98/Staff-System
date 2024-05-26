@@ -45,16 +45,18 @@ namespace client::system
 		QHash<int, QByteArray> roleNames() const override;
 
 		void addOrUpdateStaff(Staff* employee);
-		void removeStaff(size_t id);
 
 		// empties the employee list
 		void clear();
 
-		// Getters
 		Q_INVOKABLE QVector<Staff*> employees() const { return mStaff; }
 		int count() const {
 			return rowCount(QModelIndex{});
 		}
+
+		Q_INVOKABLE size_t lastIdx() const { return mLastIdx; }
+
+		void setLastIdx(size_t lastIdx) { mLastIdx = lastIdx; }
 
 		// returns the employee associated with the given id, if there isn't one, it returns nullptr
 		Q_INVOKABLE Staff* getStaff(size_t id);
@@ -65,10 +67,13 @@ namespace client::system
 		// returns the employee associated with the given username and password, if there isn't one, it returns nullptr
 		Q_INVOKABLE Staff* authenticateStaff(QString username, QString password);
 
-		Q_INVOKABLE void addStaff(QVariantMap employee);
+		Q_INVOKABLE void addOrUpdateStaff(QVariantMap employee);
+
+		Q_INVOKABLE void removeStaff(size_t id);
 
 	private:
 		QVector<Staff*> mStaff;
+		size_t mLastIdx;
 
 	signals:
 		void countChanged();

@@ -44,7 +44,8 @@ namespace client::system
 
 		for (auto employee : employees)
 		{
-			bool is_admin = mCurrentEmployee->staffType() == Staff::Admin;
+			bool is_admin = mCurrentEmployee->staffType() == Staff::Admin &&
+				(employee->staffType() == Staff::HR || employee->staffType() == Staff::Manager || employee->staffType() == Staff::Employee);;
 
 			bool is_hr = mCurrentEmployee->staffType() == Staff::HR &&
 				(employee->staffType() == Staff::Manager || employee->staffType() == Staff::Employee);
@@ -82,7 +83,7 @@ namespace client::system
 		return staffList;
 	}
 
-	void StaffDriver::InsertStaffToDB(size_t employee_id)
+	void StaffDriver::insertStaffToDB(size_t employee_id)
 	{
 		auto employee = mStaffList->getStaff(employee_id);
 
@@ -122,6 +123,61 @@ namespace client::system
 		query.append("', '");
 		query.append(role);
 		query.append("')");
+
+		char *err = nullptr;
+		auto rc2 = sqlite3_exec(mHandle, query.c_str(), NULL, NULL, &err);
+	}
+
+	void StaffDriver::updateStaffToDB(size_t employee_id)
+	{
+		auto employee = mStaffList->getStaff(employee_id);
+
+		auto staffType = employee->staffType();
+		std::string role;
+				if (staffType == Staff::Admin)
+					role = "Admin";
+				else if (staffType == Staff::HR)
+					role = "HR";
+				else if (staffType == Staff::Manager)
+					role = "Manager";
+				else
+					role = "Employee";
+
+		std::string query = "UPDATE Staff SET Username='";
+		query.append(employee->username().toStdString());
+		query.append("', Password='");
+		query.append(employee->password().toStdString());
+		query.append("', FirstName='");
+		query.append(employee->firstName().toStdString());
+		query.append("', LastName='");
+		query.append(employee->lastName().toStdString());
+		query.append("', Email='");
+		query.append(employee->email().toStdString());
+		query.append("', Gender='");
+		query.append(employee->gender() == Staff::Male ? "Male" : "Female");
+		query.append("', Age=");
+		query.append(std::to_string(employee->age()));
+		query.append(", Photo='");
+		query.append(employee->photo().toStdString());
+		query.append("', AcademicDegree='");
+		query.append(employee->academicDegree().toStdString());
+		query.append("', Manager='");
+		query.append(employee->manager().toStdString());
+		query.append("', Role='");
+		query.append(role);
+		query.append("' WHERE Id=");
+		query.append(std::to_string(employee_id));
+
+		char *err = nullptr;
+		auto rc2 = sqlite3_exec(mHandle, query.c_str(), NULL, NULL, &err);
+	}
+
+	void StaffDriver::removeStaffFromDB(size_t employee_id)
+	{
+		auto employee = mStaffList->getStaff(employee_id);
+
+		std::string query = "DELETE FROM Staff WHERE ID=";
+		query.append(std::to_string(employee_id));
 
 		char *err = nullptr;
 		auto rc2 = sqlite3_exec(mHandle, query.c_str(), NULL, NULL, &err);

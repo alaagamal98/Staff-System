@@ -154,6 +154,7 @@ namespace client::system
 				QModelIndex employeeIndex = createIndex(i, 0);
 				emit dataChanged(employeeIndex, employeeIndex, { StaffTypeRole });
 			}
+			delete employee;
 			return;
 		}
 
@@ -171,6 +172,8 @@ namespace client::system
 			if (mStaff[i]->id() == id)
 			{
 				beginRemoveRows(QModelIndex(), i, i);
+				if (id == mLastIdx)
+					mLastIdx--;
 				mStaff.removeAt(i);
 				endRemoveRows();
 				return;
@@ -206,14 +209,15 @@ namespace client::system
 		return managers;
 	}
 
-	void StaffList::addStaff(QVariantMap employee)
+	void StaffList::addOrUpdateStaff(QVariantMap employee)
 	{
-		beginInsertRows(QModelIndex(), mStaff.size(), mStaff.size());
 		auto new_employee = new Staff{};
 
-		auto last_employee_id = mStaff[mStaff.size() - 1]->id();
-		new_employee->setId(last_employee_id + 1);
+		auto idx = employee["Id"].toInt();
+		if (idx == 0)
+			idx = mLastIdx + 1;
 
+		new_employee->setId(idx);
 		new_employee->setUsername(employee["Username"].toString());
 		new_employee->setPassword(employee["Password"].toString());
 		new_employee->setFirstName(employee["FirstName"].toString());
@@ -226,8 +230,7 @@ namespace client::system
 		new_employee->setManager(employee["Manager"].toString());
 		new_employee->setStaffType(Staff::StaffType(employee["Role"].toInt()));
 
-		mStaff.append(new_employee);
-		endInsertRows();
+		addOrUpdateStaff(new_employee);
 	}
 
 	Staff* StaffList::authenticateStaff(QString username, QString password)

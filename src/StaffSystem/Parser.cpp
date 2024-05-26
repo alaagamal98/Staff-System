@@ -79,6 +79,8 @@ namespace client::system
 					employee->setStaffType(Staff::Employee);
 			}
 		}
+		if (employee->id() > staff_list->lastIdx())
+			staff_list->setLastIdx(employee->id());
 		staff_list->addOrUpdateStaff(employee);
 
 		return 0;

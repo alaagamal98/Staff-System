@@ -31,7 +31,7 @@ QtObject {
         // dummy signal for `dialogAsPromise` to connect to
         //
         // NOTE: the signal is not fired in order to to keep the dialog alive
-        // in case it is needed (e.g., to access its `selectedFile`); you should
+        // in case it is needed (e.g., to access its `selectedFile`) you should
         // manually destroy the created dialog when you are done with it
         signal closed
     }

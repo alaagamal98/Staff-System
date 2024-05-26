@@ -10,6 +10,7 @@ ColumnLayout {
     property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Gender", "Age", "Academic Degree", "Manager", "Role", "More Info"]
     property var tableRows: StaffDriver.reportStaffList()
     property var rowCurrentIndex: 0
+    property var rowSelectedIndex: 0
 
     property alias tableView: tableView
     property alias tableViewHeight: tableView.height
@@ -43,9 +44,14 @@ ColumnLayout {
         bottomPadding: 8
         font.pixelSize: 18
         text: "Add New Employee"
-        visible: currentUserRole == 0 || currentUserRole == 1
+        visible: currentUserRole === 0 || currentUserRole === 1
 
-        onClicked: staffAddPopup.open()
+        onClicked: {
+            staffAddPopup.currentUserRole = StaffDriver.currentEmployee.staffType
+            staffAddPopup.currentManagers = StaffDriver.staffList.getManagers()
+            staffAddPopup.reset()
+            staffAddPopup.open()
+        }
     }
 
     HorizontalHeaderView {
@@ -141,8 +147,13 @@ ColumnLayout {
                         text: " Details"
                         icon.source: "qrc:/StaffSystem/icons/more.svg"
                         onClicked: {
-                            staffDetailsPopup.employeeId = tableView.model.rows[row].Id;
-                            staffDetailsPopup.open();
+                            staffDetailsPopup.employee = StaffDriver.staffList.getStaff(tableView.model.rows[row].Id)
+                            rowSelectedIndex = row
+                            staffDetailsPopup.currentUserRole = StaffDriver.currentEmployee.staffType
+                            staffDetailsPopup.currentManagers = StaffDriver.staffList.getManagers()
+                            staffDetailsPopup.reset()
+                            staffDetailsPopup.popupOpened = true
+                            staffDetailsPopup.open()
                         }
                     }
                 }
@@ -184,8 +195,8 @@ ColumnLayout {
 
     Component.onCompleted: {
         while (rowCurrentIndex < tableRows.length) {
-            tableView.model.appendRow(tableRows[rowCurrentIndex]);
-            rowCurrentIndex++;
+            tableView.model.appendRow(tableRows[rowCurrentIndex])
+            rowCurrentIndex++
         }
     }
 
@@ -193,11 +204,15 @@ ColumnLayout {
         target: StaffDriver.staffList
 
         function onCountChanged() {
-            tableRows = StaffDriver.reportStaffList();
+            tableRows = StaffDriver.reportStaffList()
             if (rowCurrentIndex < tableRows.length) {
-                tableView.model.appendRow(tableRows[rowCurrentIndex]);
-                StaffDriver.InsertStaffToDB(tableView.model.getRow(rowCurrentIndex).Id);
-                rowCurrentIndex++;
+                StaffDriver.insertStaffToDB(tableRows[rowCurrentIndex].Id)
+                tableView.model.appendRow(tableRows[rowCurrentIndex])
+                rowCurrentIndex++
+            } else {
+                StaffDriver.removeStaffFromDB(tableView.model.getRow(rowSelectedIndex).Id)
+                tableView.model.removeRow(rowSelectedIndex)
+                rowCurrentIndex--
             }
         }
     }
@@ -208,6 +223,11 @@ ColumnLayout {
         height: parent.height - 20
         width: parent.width - 20
         anchors.centerIn: parent
+
+        onUpdateRow: function () {
+            tableRows = StaffDriver.reportStaffList()
+            tableView.model.setRow(rowSelectedIndex, tableRows[rowSelectedIndex])
+        }
     }
 
     StaffAddPopup {

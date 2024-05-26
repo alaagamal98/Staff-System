@@ -19,7 +19,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.topMargin: 10
         Layout.leftMargin: 15
-        Layout.bottomMargin: 20
+        Layout.bottomMargin: 30
         font.pixelSize: 16
         font.weight: Font.Bold
         color: "#FFFFFF"
@@ -33,6 +33,7 @@ ColumnLayout {
         Layout.preferredHeight: 45
         Layout.preferredWidth: 300
         Layout.leftMargin: 15
+        Layout.bottomMargin: 10
 
         verticalAlignment: Qt.AlignVCenter
         placeholderText: "Username"
@@ -65,14 +66,14 @@ ColumnLayout {
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 14
         wrapMode: Text.WordWrap
-        color: "#DDB8B8"
+        color: "#A53F3F"
         text: LoginDriver.error
     }
 
     Button {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.preferredWidth: 300
-        Layout.topMargin: 5
+        Layout.topMargin: 15
         Layout.leftMargin: 15
 
         leftPadding: 8
