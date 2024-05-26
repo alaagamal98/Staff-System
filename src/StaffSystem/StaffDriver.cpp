@@ -32,14 +32,31 @@ namespace client::system
 		auto rc2 = sqlite3_exec(db, query.c_str(), parseEmployee, mStaffList, &err);
 	}
 
-	QVariantList StaffDriver::reportStaffList()
+	QVariantList StaffDriver::reportStaffList(QString columnSort)
 	{
 		QVariantList staffList;
 
 		auto employees = mStaffList->employees();
 
-		std::sort(employees.begin(), employees.end(), [](Staff* a, Staff* b) -> bool {
-			return a->id() < b->id();
+		std::sort(employees.begin(), employees.end(), [columnSort](Staff* a, Staff* b) -> bool {
+			if (columnSort == "Username")
+				return a->username() < b->username();
+			else if (columnSort == "First Name")
+				return a->firstName() < b->firstName();
+			else if (columnSort == "Last Name")
+				return a->lastName() < b->lastName();
+			else if (columnSort == "Gender")
+				return a->gender() < b->gender();
+			else if (columnSort == "Age")
+				return a->age() < b->age();
+			else if (columnSort == "Academic Degree")
+				return a->academicDegree() < b->academicDegree();
+			else if (columnSort == "Manager")
+				return a->manager() < b->manager();
+			else if (columnSort == "Role")
+				return a->staffType() < b->staffType();
+			else
+				return a->id() < b->id();
 		});
 
 		for (auto employee : employees)

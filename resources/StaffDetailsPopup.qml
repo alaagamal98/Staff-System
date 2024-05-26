@@ -358,7 +358,7 @@ Popup {
                 Layout.preferredHeight: 45
                 Layout.preferredWidth: 300
                 verticalAlignment: Qt.AlignVCenter
-                text: popupOpened ? employee.password : ""
+                placeholderText: "Password"
                 font.pixelSize: 16
                 echoMode: TextInput.Password
                 enabled: (roleInput.currentValue === 1 || roleInput.currentValue === 2) && currentUserRole !== 2
@@ -470,7 +470,7 @@ Popup {
                         let new_employee = {
                             "Id": employee.id,
                             "Username": usernameInput.text,
-                            "Password": passwordInput.text,
+                            "Password": passwordInput.text !== "" ? passwordInput.text : employee.password,
                             "FirstName": firstNameInput.text,
                             "LastName": lastNameInput.text,
                             "Email": emailInput.text,

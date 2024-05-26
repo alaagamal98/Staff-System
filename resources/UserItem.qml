@@ -28,28 +28,26 @@ ColumnLayout {
         }
     }
 
+
+       Text {
+		text: StaffDriver.currentEmployee.username
+		font.pixelSize: 15
+		font.weight: 5
+		font.family: "Roboto Light"
+		color: "#FFFFFF"
+		elide: Text.ElideMiddle
+		Layout.alignment: Qt.AlignRight
+	}
+
     RowLayout {
         id: userRowContent
-        Layout.alignment: Qt.AlignRight
-        Layout.rightMargin: 20
-        Layout.topMargin: 20
-        Layout.leftMargin: 15
-
-        Text {
-            text: StaffDriver.currentEmployee.username
-            font.pixelSize: 15
-            font.weight: 5
-            font.family: "Roboto Light"
-            color: "#FFFFFF"
-            elide: Text.ElideMiddle
-            Layout.alignment: Qt.AlignRight
-        }
+        Layout.alignment: Qt.AlignHCenter
 
         Image {
             id: avatar
-            source: "qrc:/StaffSystem/icons/account-circle.svg"
-            width: 36
-            height: 36
+            source: StaffDriver.currentEmployee.photo.toString() === "" ?  "qrc:/StaffSystem/icons/account-circle.svg" : StaffDriver.currentEmployee.photo
+            width: 300
+            height: 300
             sourceSize: Qt.size(width, height)
         }
     }

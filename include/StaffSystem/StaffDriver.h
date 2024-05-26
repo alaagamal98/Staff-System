@@ -38,7 +38,7 @@ namespace client::system
 
 		StaffList* staffList() const { return mStaffList; }
 
-		Q_INVOKABLE QVariantList reportStaffList();
+		Q_INVOKABLE QVariantList reportStaffList(QString columnSort);
 
 		Q_INVOKABLE void insertStaffToDB(size_t employee_id);
 

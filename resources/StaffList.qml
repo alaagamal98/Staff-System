@@ -8,7 +8,8 @@ ColumnLayout {
     id: root
 
     property var tableHeaderInfo: ["Id", "Username", "First Name", "Last Name", "Gender", "Age", "Academic Degree", "Manager", "Role", "More Info"]
-    property var tableRows: StaffDriver.reportStaffList()
+    property var sortingColumn: "Id"
+    property var tableRows: StaffDriver.reportStaffList(sortingColumn)
     property var rowCurrentIndex: 0
     property var rowSelectedIndex: 0
 
@@ -71,11 +72,24 @@ ColumnLayout {
 
             Label {
                 text: root.tableHeaderInfo[index]
-                padding: 10
                 color: "#292E5F"
                 font.bold: true
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                anchors.centerIn: parent
+            }
+
+            Button {
+                id: sortBtn
+
+                implicitWidth: 20
+                implicitHeight: 20
+				anchors.right: parent.right
+				visible: index !== 9
+
+                icon.source: "qrc:/StaffSystem/icons/sort.svg"
+
+				onClicked: {
+					sortingColumn = root.tableHeaderInfo[index]
+					tableView.model.rows = StaffDriver.reportStaffList(sortingColumn)
+				}
             }
         }
     }
@@ -204,7 +218,7 @@ ColumnLayout {
         target: StaffDriver.staffList
 
         function onCountChanged() {
-            tableRows = StaffDriver.reportStaffList()
+            tableRows = StaffDriver.reportStaffList(sortingColumn)
             if (rowCurrentIndex < tableRows.length) {
                 StaffDriver.insertStaffToDB(tableRows[rowCurrentIndex].Id)
                 tableView.model.appendRow(tableRows[rowCurrentIndex])
@@ -225,7 +239,7 @@ ColumnLayout {
         anchors.centerIn: parent
 
         onUpdateRow: function () {
-            tableRows = StaffDriver.reportStaffList()
+            tableRows = StaffDriver.reportStaffList(sortingColumn)
             tableView.model.setRow(rowSelectedIndex, tableRows[rowSelectedIndex])
         }
     }
